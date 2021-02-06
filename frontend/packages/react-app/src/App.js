@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
-import { useQuery } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { Body, Button, Header, Image, Link as AnchorLink } from "./components";
@@ -9,7 +8,10 @@ import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
+import Ceramic from "@ceramicnetwork/http-client";
+import { IDX } from "@ceramicstudio/idx";
+import { ThreeIdConnect, EthereumAuthProvider } from "3id-connect";
+import useCeramic from "./hooks/useCeramic";
 
 async function readOnChainData() {
   // Should replace with the end-user wallet, e.g. Metamask
@@ -63,14 +65,9 @@ function App() {
 }
 
 function HomePage() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-
-  React.useEffect(() => {
-    if (!loading && !error && data && data.transfers) {
-      console.log({ transfers: data.transfers });
-    }
-  }, [loading, error, data]);
+  const { ceramic, idx } = useCeramic(provider);
+  console.log(ceramic, idx);
 
   return (
     <div>

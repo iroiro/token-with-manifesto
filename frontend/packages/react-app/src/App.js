@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
-import { useQuery } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { Body, Button, Header, Image, Link as AnchorLink } from "./components";
@@ -9,7 +8,9 @@ import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
+import Ceramic from "@ceramicnetwork/http-client";
+import { IDX } from "@ceramicstudio/idx";
+import { ThreeIdConnect, EthereumAuthProvider } from "3id-connect";
 
 async function readOnChainData() {
   // Should replace with the end-user wallet, e.g. Metamask
@@ -62,15 +63,40 @@ function App() {
   );
 }
 
-function HomePage() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
-  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
+const useCeramicAndIdx = (ethProvider) => {
+  const [ceramic, setCeramic] = useState(undefined);
+  const [idx, setIdx] = useState(undefined);
 
-  React.useEffect(() => {
-    if (!loading && !error && data && data.transfers) {
-      console.log({ transfers: data.transfers });
-    }
-  }, [loading, error, data]);
+  useEffect(() => {
+    const f = async () => {
+      if (ethProvider === undefined) {
+        setCeramic(undefined);
+        setIdx(undefined);
+        return;
+      }
+      const ceramic = new Ceramic("https://ceramic-clay.3boxlabs.com");
+      setCeramic(ceramic);
+
+      const addresses = await ethProvider.enable();
+      const threeID = new ThreeIdConnect();
+      await threeID.connect(
+        new EthereumAuthProvider(ethProvider, addresses[0])
+      );
+      const provider = threeID.getDidProvider();
+      await ceramic.setDIDProvider(provider);
+      const idx = new IDX({ ceramic });
+      setIdx(idx);
+    };
+    f();
+  }, [ethProvider]);
+
+  return { ceramic, idx };
+};
+
+function HomePage() {
+  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
+  const { ceramic, idx } = useCeramicAndIdx(provider);
+  console.log(ceramic, idx);
 
   return (
     <div>

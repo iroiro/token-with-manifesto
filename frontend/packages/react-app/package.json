@@ -15,7 +15,10 @@
     ]
   },
   "dependencies": {
+    "3id-connect": "^1.0.0-alpha.15",
     "@apollo/react-hooks": "^3.1.5",
+    "@ceramicnetwork/http-client": "^0.9.6",
+    "@ceramicstudio/idx": "^0.7.0",
     "@ethersproject/contracts": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@project/contracts": "^1.0.0",

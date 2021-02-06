@@ -1,19 +1,15 @@
 import styled from "styled-components";
 
 export const Header = styled.header`
-  background-color: #282c34;
   min-height: 70px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  color: white;
 `;
 
-export const Body = styled.body`
+export const Main = styled.main`
   align-items: center;
-  background-color: #282c34;
-  color: white;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
@@ -36,7 +32,6 @@ export const Link = styled.a.attrs({
 `;
 
 export const Button = styled.button`
-  background-color: white;
   border: none;
   border-radius: 8px;
   color: #282c34;
@@ -47,7 +42,7 @@ export const Button = styled.button`
   margin: 0px 20px;
   padding: 12px 24px;
 
-  ${props => props.hidden && "hidden"} :focus {
+  ${(props) => props.hidden && "hidden"} :focus {
     border: none;
     outline: none;
   }

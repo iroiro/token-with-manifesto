@@ -48,5 +48,8 @@
     "ipfs": "yarn build && node scripts/ipfs.js",
     "start": "react-scripts start",
     "test": "react-scripts test"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }

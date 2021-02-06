@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import BasicInfoPage from "./components/BasicInfoPage";
+import HomePage from "./components/pages/HomePage";
+import BasicInfoPage from "./components/pages/BasicInfoPage";
 
 function App() {
   return (

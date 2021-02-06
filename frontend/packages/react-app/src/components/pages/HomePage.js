@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Button, Image, Link as AnchorLink, Main } from "./index";
-import useWeb3Modal from "../hooks/useWeb3Modal";
-import useCeramic from "../hooks/useCeramic";
-import CommonHeader from "./CommonHeader";
-import logo from "../ethereumLogo.png";
+import { Button, Image, Link as AnchorLink, Main } from "../index";
+import useWeb3Modal from "../../hooks/useWeb3Modal";
+import useCeramic from "../../hooks/useCeramic";
+import CommonHeader from "../organisms/CommonHeader";
+import logo from "../../ethereumLogo.png";
 import { getDefaultProvider } from "@ethersproject/providers";
 import { Contract } from "@ethersproject/contracts";
 import { abis, addresses } from "@project/contracts";

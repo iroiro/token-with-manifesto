@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "./index";
+import { Button } from "../index";
 
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
   return (

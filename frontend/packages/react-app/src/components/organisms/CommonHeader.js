@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Button, Header } from "./index";
+import { Button, Header } from "../index";
 import { Link } from "react-router-dom";
-import WalletButton from "./WalletButton";
+import WalletButton from "../atoms/WalletButton";
 
 const CommonHeader = ({ provider, loadWeb3Modal, logoutOfWeb3Modal }) => (
   <Header>

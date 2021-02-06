@@ -11,6 +11,7 @@ import { addresses, abis } from "@project/contracts";
 import Ceramic from "@ceramicnetwork/http-client";
 import { IDX } from "@ceramicstudio/idx";
 import { ThreeIdConnect, EthereumAuthProvider } from "3id-connect";
+import useCeramic from "./hooks/useCeramic";
 
 async function readOnChainData() {
   // Should replace with the end-user wallet, e.g. Metamask
@@ -63,39 +64,9 @@ function App() {
   );
 }
 
-const useCeramicAndIdx = (ethProvider) => {
-  const [ceramic, setCeramic] = useState(undefined);
-  const [idx, setIdx] = useState(undefined);
-
-  useEffect(() => {
-    const f = async () => {
-      if (ethProvider === undefined) {
-        setCeramic(undefined);
-        setIdx(undefined);
-        return;
-      }
-      const ceramic = new Ceramic("https://ceramic-clay.3boxlabs.com");
-      setCeramic(ceramic);
-
-      const addresses = await ethProvider.enable();
-      const threeID = new ThreeIdConnect();
-      await threeID.connect(
-        new EthereumAuthProvider(ethProvider, addresses[0])
-      );
-      const provider = threeID.getDidProvider();
-      await ceramic.setDIDProvider(provider);
-      const idx = new IDX({ ceramic });
-      setIdx(idx);
-    };
-    f();
-  }, [ethProvider]);
-
-  return { ceramic, idx };
-};
-
 function HomePage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  const { ceramic, idx } = useCeramicAndIdx(provider);
+  const { ceramic, idx } = useCeramic(provider);
   console.log(ceramic, idx);
 
   return (

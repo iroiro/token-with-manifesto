@@ -3,8 +3,8 @@ import { Client, ThreadID, Where } from "@textile/hub";
 // TODO split and add as custom hooks
 export const testThreadDB = async () => {
   const client = await Client.withKeyInfo({
-    key: process.env.THREADDB_KEY,
-    secret: process.env.THREADDB_SECRET,
+    key: process.env.REACT_APP_THREADDB_KEY,
+    secret: process.env.REACT_APP_THREADDB_SECRET,
   });
   // const thread = client.newDB(null, "token-with-manifesto")
   // console.debug(thread.toString())

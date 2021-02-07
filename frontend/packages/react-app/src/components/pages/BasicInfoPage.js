@@ -4,11 +4,16 @@ import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
 import CommonHeader from "../organisms/CommonHeader";
 import { useEffect } from "react";
+import { testThreadDB } from "../../utils/textile";
 
 function BasicInfoPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
   console.log(ceramic, idx);
+
+  useEffect(() => {
+    testThreadDB();
+  }, []);
 
   useEffect(() => {
     if (ceramic === undefined || idx === undefined) {

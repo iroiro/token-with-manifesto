@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../../util/style/theme";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const StyledDt = styled.dt`
   font-size: 14px;
@@ -10,6 +11,7 @@ const StyledDt = styled.dt`
 const StyledDd = styled.dd`
   margin: 0;
   font-weight: 500;
+  min-width: 120px;
   ${theme.breakpoints.down(600)} {
     text-align: right;
   }
@@ -30,21 +32,25 @@ export const TokenInfo = ({ tokenName, symbol, totalSupply, decimals }) => (
     <dl>
       <Wrapper>
         <StyledDt>Name:</StyledDt>
-        <StyledDd>{tokenName}</StyledDd>
+        <StyledDd>{tokenName ?? <Skeleton variant="text" />}</StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Symbol:</StyledDt>
-        <StyledDd>{symbol}</StyledDd>
+        <StyledDd>{symbol ?? <Skeleton variant="text" />}</StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Total Supply:</StyledDt>
         <StyledDd>
-          {totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          {totalSupply ? (
+            totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          ) : (
+            <Skeleton variant="text" />
+          )}
         </StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Decimals:</StyledDt>
-        <StyledDd>{decimals}</StyledDd>
+        <StyledDd>{decimals ?? <Skeleton variant="text" />}</StyledDd>
       </Wrapper>
     </dl>
   </>

@@ -15,3 +15,5 @@ Default.args = {
   totalSupply: 10000000,
   decimals: 6,
 };
+
+export const Skelton = Template.bind({});

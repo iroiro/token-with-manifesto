@@ -9,12 +9,10 @@ const StyledDt = styled.dt`
 `;
 
 const StyledDd = styled.dd`
+  text-align: right;
   margin: 0;
   font-weight: 500;
   min-width: 120px;
-  ${theme.breakpoints.down(600)} {
-    text-align: right;
-  }
 `;
 
 const Wrapper = styled.div`

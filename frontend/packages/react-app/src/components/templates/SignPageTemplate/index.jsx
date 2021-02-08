@@ -7,8 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TokenInfo } from "../../molecules/TokenInfo";
-import InputLabel from "@material-ui/core/InputLabel";
-import { Avatar } from "@material-ui/core";
+import { EditProfile } from "../../molecules/EditProfile";
 
 const StyledInput = styled(TextField)`
   width: 100%;
@@ -19,8 +18,8 @@ export const SignPageTemplate = ({ value }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [textValue, setTextValue] = useState("");
   // TODO: Move to page
-  const [name, setName] = useState(value.witness.userName);
-  const [image, setImage] = useState(value.witness.iconImageUrl);
+  const [name, setName] = useState(value.userInfo.name);
+  const [image, setImage] = useState(value.userInfo.iconImageUrl);
   const [isSigned, setIsSigned] = useState(value.isSigned);
 
   const handleDownloadButtonClick = () => {
@@ -88,61 +87,15 @@ export const SignPageTemplate = ({ value }) => {
                 >
                   Fill in your info
                 </Typography>
-                <StyledInput
-                  label="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={isSigned}
+                <EditProfile
+                  name={name}
+                  onNameChange={(e) => setName(e.target.value)}
+                  image={image}
+                  handleImageUpload={handleImageUpload}
+                  onUpdateButtonClick={() => console.log("update")}
                 />
-                <div>
-                  <InputLabel style={{ marginBottom: 16 }}>
-                    Icon image
-                  </InputLabel>
-                  {image === "" && (
-                    <>
-                      <input
-                        accept="image/*"
-                        id="button-file"
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={handleImageUpload}
-                        disabled={isSigned}
-                      />
-                      <label htmlFor="button-file">
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          disableElevation
-                          component="span"
-                          style={{ minWidth: 240, width: "100%" }}
-                          disabled={isSigned}
-                        >
-                          Select Image
-                        </Button>
-                      </label>
-                    </>
-                  )}
-                  {image !== "" && (
-                    <div>
-                      <input
-                        accept="image/*"
-                        id="image-file"
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={handleImageUpload}
-                        disabled={isSigned}
-                      />
-                      <label htmlFor="image-file">
-                        <Avatar
-                          src={image}
-                          style={{ width: 82, height: 82, cursor: "pointer" }}
-                        />
-                      </label>
-                    </div>
-                  )}
-                </div>
               </Frame>
-              <div style={{ maxWidth: 416, margin: "32px auto" }}>
+              <div style={{ maxWidth: 416, margin: "52px auto 32px" }}>
                 <Typography
                   style={{
                     fontWeight: 500,
@@ -152,6 +105,7 @@ export const SignPageTemplate = ({ value }) => {
                 >
                   Sign manifesto and send back to Creator
                 </Typography>
+                {/* TODO: Conditioning when Button becomes active */}
                 <Button
                   variant="contained"
                   color="primary"

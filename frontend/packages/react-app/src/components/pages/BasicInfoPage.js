@@ -32,6 +32,18 @@ function BasicInfoPage() {
     idx
   );
 
+  // TODO just teset. remove
+  useEffect(() => {
+    const f = async () => {
+      const client = await Client.withKeyInfo({
+        key: process.env.REACT_APP_THREADDB_KEY,
+        secret: process.env.REACT_APP_THREADDB_SECRET,
+      });
+      console.debug(await client.find(threadId, manifestosCollection, {}));
+    };
+    f();
+  }, []);
+
   useEffect(() => {
     const f = async () => {
       if (doc === undefined || error !== undefined) {

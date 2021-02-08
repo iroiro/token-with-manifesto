@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import IpfsHttpClient from "ipfs-http-client";
+const infura = { host: "ipfs.infura.io", port: 5001, protocol: "https" };
+const ipfs = IpfsHttpClient(infura);
 
 const mockTokenInfo = {
   token: {
@@ -18,13 +21,21 @@ const useSaveTokenBasicInfo = (ceramic, idx) => {
   const [error, setError] = useState(undefined);
 
   const saveTokenBasicInfo = useCallback(
-    async (tokenInfoWithManifesto) => {
-      if (ceramic === undefined || idx === undefined) {
+    async (manifestoFile, tokenInfoWithManifesto) => {
+      if (
+        ceramic === undefined ||
+        idx === undefined ||
+        manifestoFile === undefined
+      ) {
         return;
       }
+      const { path } = await ipfs.add(manifestoFile);
       return await ceramic
         .createDocument("tile", {
-          content: tokenInfoWithManifesto,
+          content: {
+            ...tokenInfoWithManifesto,
+            manifestoCid: path,
+          },
           metadata: {
             schema: tokenInfoSchema,
             controllers: [idx.id],

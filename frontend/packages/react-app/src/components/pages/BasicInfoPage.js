@@ -8,11 +8,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import useSaveIdxBasicProfile from "../../hooks/useSaveIdxBasicProfile";
 import { Client } from "@textile/hub";
-import {
-  manifestosCollection,
-  testThreadDB,
-  threadId,
-} from "../../utils/textile";
+import { manifestosCollection, threadId } from "../../utils/textile";
 import useSaveTokenBasicInfo from "../../hooks/useSaveTokenBasicInfo";
 
 function BasicInfoPage() {
@@ -28,7 +24,7 @@ function BasicInfoPage() {
     },
     manifestoCid: "",
   });
-
+  const [manifestoFile, setManifestoFile] = useState(undefined);
   const { doc, error, saveTokenBasicInfo } = useSaveTokenBasicInfo(
     ceramic,
     idx
@@ -46,35 +42,14 @@ function BasicInfoPage() {
         creator_did: idx.id,
         witness_signatures: [],
       };
-      console.debug(manifesto);
       const client = await Client.withKeyInfo({
         key: process.env.REACT_APP_THREADDB_KEY,
         secret: process.env.REACT_APP_THREADDB_SECRET,
       });
       await client.create(threadId, manifestosCollection, [manifesto]);
-      console.debug(await client.find(threadId, manifestosCollection, {}));
     };
     f();
   }, [doc]);
-
-  useEffect(() => {
-    const f = async () => {
-      const client = await Client.withKeyInfo({
-        key: process.env.REACT_APP_THREADDB_KEY,
-        secret: process.env.REACT_APP_THREADDB_SECRET,
-      });
-      // console.debug(
-      //   await client.create(threadId, manifestosCollection, [
-      //     {
-      //       ...mockManifesto,
-      //       witness_signatures: [],
-      //     },
-      //   ])
-      // );
-      console.debug(await client.find(threadId, manifestosCollection, {}));
-    };
-    f();
-  }, []);
 
   // TODO Integrate with template
   return (
@@ -151,10 +126,22 @@ function BasicInfoPage() {
           }}
         />
         <h2>Select manifest for token</h2>
-        <Button>Select Manifest</Button>
+        <Button variant="contained" component="label">
+          Select Manifest
+          <input
+            type="file"
+            accept="application/pdf"
+            hidden
+            onChange={(event) => setManifestoFile(event.target.files)}
+          />
+        </Button>
         <Button
-          onClick={() => saveTokenBasicInfo(tokenBasicInfo)}
-          disabled={ceramic === undefined || idx === undefined}
+          onClick={() => saveTokenBasicInfo(manifestoFile, tokenBasicInfo)}
+          disabled={
+            ceramic === undefined ||
+            idx === undefined ||
+            manifestoFile === undefined
+          }
         >
           Save
         </Button>

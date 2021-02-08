@@ -29,6 +29,7 @@ const useSaveTokenBasicInfo = (ceramic, idx) => {
       ) {
         return;
       }
+      // TODO pinning cid
       const { path } = await ipfs.add(manifestoFile);
       return await ceramic
         .createDocument("tile", {

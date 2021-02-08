@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const mockTokenInfo = {
   token: {
@@ -13,15 +13,16 @@ const mockTokenInfo = {
 const tokenInfoSchema =
   "ceramic://k3y52l7qbv1frxs11yw808uledicr7q3aq1vjihd7m2w2mo66f8w5z200pwli0dts";
 
-const useSaveTokenBasicInfo = (ceramic, idx, tokenInfoWithManifesto) => {
+const useSaveTokenBasicInfo = (ceramic, idx) => {
   const [doc, setDoc] = useState(undefined);
+  const [error, setError] = useState(undefined);
 
-  useEffect(() => {
-    const f = async () => {
+  const saveTokenBasicInfo = useCallback(
+    async (tokenInfoWithManifesto) => {
       if (ceramic === undefined || idx === undefined) {
         return;
       }
-      ceramic
+      return await ceramic
         .createDocument("tile", {
           content: tokenInfoWithManifesto,
           metadata: {
@@ -33,13 +34,13 @@ const useSaveTokenBasicInfo = (ceramic, idx, tokenInfoWithManifesto) => {
           setDoc(saved);
         })
         .catch((err) => {
-          console.error(err);
+          setError(err);
         });
-    };
-    f();
-  }, [ceramic, idx, tokenInfoWithManifesto]);
+    },
+    [ceramic, idx, setDoc, setError]
+  );
 
-  return { doc };
+  return { doc, error, saveTokenBasicInfo };
 };
 
 export default useSaveTokenBasicInfo;

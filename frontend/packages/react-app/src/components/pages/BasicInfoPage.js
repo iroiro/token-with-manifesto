@@ -4,16 +4,14 @@ import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
 import CommonHeader from "../organisms/CommonHeader";
 import { useEffect } from "react";
-import { testThreadDB } from "../../utils/textile";
+import useGetIdxBasicProfile from "../../hooks/useGetIdxBasicProfile";
 
 function BasicInfoPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
   console.log(ceramic, idx);
 
-  useEffect(() => {
-    testThreadDB();
-  }, []);
+  const { name, imageURL } = useGetIdxBasicProfile(idx);
 
   useEffect(() => {
     if (ceramic === undefined || idx === undefined) {
@@ -31,6 +29,7 @@ function BasicInfoPage() {
     f();
   }, [ceramic, idx]);
 
+  // TODO Integrate with template
   return (
     <div>
       <CommonHeader
@@ -38,7 +37,11 @@ function BasicInfoPage() {
         loadWeb3Modal={loadWeb3Modal}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
       />
-      <Main>basic info page</Main>
+      <Main>
+        basic info page
+        <p>{name}</p>
+        {imageURL !== undefined && <img src={imageURL} alt="user image" />}
+      </Main>
     </div>
   );
 }

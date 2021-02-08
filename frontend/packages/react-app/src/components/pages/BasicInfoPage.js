@@ -3,18 +3,19 @@ import { Main } from "../index";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
 import CommonHeader from "../organisms/CommonHeader";
-import useGetIdxBasicProfile from "../../hooks/useGetIdxBasicProfile";
 import { Button, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import useSaveIdxBasicProfile from "../../hooks/useSaveIdxBasicProfile";
 import { Client } from "@textile/hub";
 import { manifestosCollection, threadId } from "../../utils/textile";
 import useSaveTokenBasicInfo from "../../hooks/useSaveTokenBasicInfo";
+import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 
 function BasicInfoPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
-  const { name, image, imageURL } = useGetIdxBasicProfile(idx);
+  const { name, setName, imageURL, saveIdxBasicProfile } = useIdxBasicProfile(
+    idx
+  );
   const [tokenBasicInfo, setTokenBasicInfo] = useState({
     token: {
       name: "",
@@ -24,12 +25,12 @@ function BasicInfoPage() {
     },
     manifestoCid: "",
   });
+  const [imageFile, setImageFile] = useState(undefined);
   const [manifestoFile, setManifestoFile] = useState(undefined);
   const { doc, error, saveTokenBasicInfo } = useSaveTokenBasicInfo(
     ceramic,
     idx
   );
-  const saveIdxBasicProfile = useSaveIdxBasicProfile(idx, name, image);
 
   useEffect(() => {
     const f = async () => {
@@ -62,12 +63,31 @@ function BasicInfoPage() {
       <Main>
         <h2>Fill in your info</h2>
         basic info page
-        <p>{name}</p>
-        {imageURL !== undefined && (
-          <img src={imageURL} alt="user image" width="100" height="100" />
+        <TextField value={name} onChange={(e) => setName(e.target.value)} />
+        <p>icon image</p>
+        {imageFile !== undefined ? (
+          <img
+            src={URL.createObjectURL(imageFile)}
+            alt="user image"
+            width="100"
+            height="100"
+          />
+        ) : (
+          imageURL !== undefined && (
+            <img src={imageURL} alt="user image" width="100" height="100" />
+          )
         )}
+        <Button variant="contained" component="label">
+          Select Image
+          <input
+            type="file"
+            accept="image/jpeg"
+            hidden
+            onChange={(event) => setImageFile(event.target.files[0])}
+          />
+        </Button>
         <Button
-          onClick={() => saveIdxBasicProfile()}
+          onClick={() => saveIdxBasicProfile(name, imageFile)}
           disabled={idx === undefined}
         >
           Save Profile

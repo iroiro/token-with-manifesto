@@ -10,18 +10,28 @@ const Circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  left: 5px;
+  top: 3px;
 `;
 
 const InnerNumber = styled.span`
   color: #fff;
 `;
 
-export const StyledNumber = ({ number }) => {
+const Wrapper = styled.div`
+  position: relative;
+  padding-left: 38px;
+  margin-left: -26px;
+`;
+
+export const StyledNumber = ({ number, children }) => {
   return (
-    <>
+    <Wrapper>
       <Circle>
         <InnerNumber>{number}</InnerNumber>
       </Circle>
-    </>
+      {children}
+    </Wrapper>
   );
 };

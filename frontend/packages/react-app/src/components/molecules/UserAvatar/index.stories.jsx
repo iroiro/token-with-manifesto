@@ -2,7 +2,7 @@ import React from "react";
 import { UserAvatar } from "./index";
 
 export default {
-  title: "molecules/UserAvatar",
+  title: "Molecules/UserAvatar",
   component: UserAvatar,
 };
 

@@ -21,8 +21,8 @@ const value = {
     decimals: 6,
     totalSupply: 10000000,
   },
-  witness: {
-    userName: "",
+  userInfo: {
+    name: "",
     iconImageUrl: "",
   },
   isSigned: false,

@@ -4,6 +4,7 @@ const imageURLPrefix = "https://gateway.pinata.cloud/ipfs/";
 
 const useGetIdxBasicProfile = (idx) => {
   const [name, setName] = useState(undefined);
+  const [image, setImage] = useState(undefined);
   const [imageURL, setImageURL] = useState(undefined);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const useGetIdxBasicProfile = (idx) => {
       const basicProfile = await idx.get("basicProfile");
       if (basicProfile === null) {
         setName(undefined);
+        setImage(undefined);
         setImageURL(undefined);
         return;
       }
@@ -23,17 +25,18 @@ const useGetIdxBasicProfile = (idx) => {
         basicProfile.image === undefined ||
         basicProfile.image.original === undefined
       ) {
+        setImage(undefined);
         setImageURL(undefined);
         return;
       }
-      console.log(basicProfile.image.original);
       const cid = basicProfile.image.original.src.substr(7); // removing "ipfs://"
+      setImage(basicProfile.image.original);
       setImageURL(imageURLPrefix + cid);
     };
     f();
   }, [idx]);
 
-  return { name, imageURL };
+  return { name, image, imageURL };
 };
 
 export default useGetIdxBasicProfile;

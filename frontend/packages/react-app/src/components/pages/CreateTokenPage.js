@@ -32,6 +32,7 @@ function CreateTokenPage() {
     client,
     idx
   );
+
   const {
     doc,
     error,

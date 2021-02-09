@@ -23,6 +23,9 @@ const Wrapper = styled.div`
   position: relative;
   padding-left: 38px;
   margin-left: -26px;
+  ${theme.breakpoints.down(600)} {
+    margin-left: 0;
+  }
 `;
 
 export const StyledNumber = ({ number, children }) => {

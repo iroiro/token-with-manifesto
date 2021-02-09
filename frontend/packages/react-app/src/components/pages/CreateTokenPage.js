@@ -7,10 +7,11 @@ import { manifestosCollection, threadId } from "../../utils/textile";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 import { CreateTokenPageTemplate } from "../templates/CreateTokenPageTemplate";
+import { useParams } from "react-router-dom";
 
-function BasicInfoPage() {
-  // TODO change regard to url params
-  const isNew = true;
+function CreateTokenPage() {
+  const { docId } = useParams();
+  const isNew = docId === undefined;
 
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
@@ -22,16 +23,6 @@ function BasicInfoPage() {
     saveIdxBasicProfile,
   } = useIdxBasicProfile(idx);
 
-  // TODO remove default value
-  const [tokenBasicInfo, setTokenBasicInfo] = useState({
-    token: {
-      name: "token",
-      symbol: "TKN",
-      totalSupply: "100000",
-      decimals: 0,
-    },
-    manifestoCid: "",
-  });
   const [imageFile, setImageFile] = useState(undefined);
   const [pdfName, setPdfName] = useState("");
   const [manifestoFile, setManifestoFile] = useState(undefined);
@@ -41,10 +32,21 @@ function BasicInfoPage() {
     creator_did: "",
     witness_signatures: [],
   });
-  const { doc, error, saveTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
+  const {
+    doc,
+    error,
+    tokenBasicInfo,
+    getTokenBasicInfo,
+    setTokenBasicInfo,
+    saveTokenBasicInfo,
+  } = useTokenBasicInfo(ceramic, idx);
   console.debug(pdfName, manifestoFile);
 
   console.debug(doc);
+
+  useEffect(() => {
+    getTokenBasicInfo(docId);
+  }, [docId, ceramic, idx]);
 
   // TODO just teset. remove
   useEffect(() => {
@@ -105,4 +107,4 @@ function BasicInfoPage() {
   );
 }
 
-export default BasicInfoPage;
+export default CreateTokenPage;

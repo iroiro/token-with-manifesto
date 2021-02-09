@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./components/pages/HomePage";
-import BasicInfoPage from "./components/pages/BasicInfoPage";
+import CreateTokenPage from "./components/pages/CreateTokenPage";
 import WitnessSignPage from "./components/pages/SignPage";
 
 function App() {
@@ -11,10 +11,12 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route path="/creator/basic">
-          <BasicInfoPage />
+        <Route exact path="/creator/token">
+          <CreateTokenPage />
         </Route>
-        <Route path="/creator/create">create token page</Route>
+        <Route path="/creator/token/:docId">
+          <CreateTokenPage />
+        </Route>
         <Route path="/witness/sign">
           <WitnessSignPage />
         </Route>

@@ -72,7 +72,7 @@ const useIdxBasicProfile = (idx) => {
     [idx]
   );
 
-  return { name, setName, image, imageURL, saveIdxBasicProfile };
+  return { name, setName, image, imageURL, setImageURL, saveIdxBasicProfile };
 };
 
 export default useIdxBasicProfile;

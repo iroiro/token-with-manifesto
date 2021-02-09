@@ -6,6 +6,7 @@ import WitnessSignPage from "./components/pages/SignPage";
 import { StylesProvider } from "@material-ui/styles";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../src/components/util/style/theme";
+import TokenInfoPage from "./components/pages/TokenInfoPage";
 
 function App() {
   return (
@@ -26,7 +27,9 @@ function App() {
               <WitnessSignPage />
             </Route>
             {/* TODO get token address as variable */}
-            <Route path="/token/address">token info page</Route>
+            <Route path="/token/:manifestoDocId">
+              <TokenInfoPage />
+            </Route>
             {/*  TODO add more pages  */}
           </Switch>
         </Router>

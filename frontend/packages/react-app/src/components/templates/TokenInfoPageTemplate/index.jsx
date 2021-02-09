@@ -18,19 +18,19 @@ const EtherScanLink = styled.a`
   margin: 0 auto;
 `;
 
-export const TokenInfopageTemplate = ({ value }) => {
+export const TokenInfopageTemplate = ({
+  tokenInfo,
+  creatorInfo,
+  witness,
+  handleReadManifestoButtonClick,
+}) => {
   const location = useLocation();
-  const handleReadManifestoButtonClick = () => {
-    // TODO: Add downloading Manifesto (or Link?)
-    console.log(value.manifestoUrl);
-  };
 
   const handleCopyUrlButtonClick = () => {
     // TODO: Add Copying page URL
     console.log(location.pathname);
   };
 
-  console.log(location.pathname);
   return (
     <>
       <Header />
@@ -39,18 +39,14 @@ export const TokenInfopageTemplate = ({ value }) => {
           <IconTitle icon="ℹ️" title="Token Info" />
           <Frame variant="outlined">
             <TokenInfo
-              tokenName={value.tokenInfo.name}
-              symbol={value.tokenInfo.symbol}
-              totalSupply={value.tokenInfo.totalSupply}
-              decimals={value.tokenInfo.decimals}
+              tokenName={tokenInfo.token.name}
+              symbol={tokenInfo.token.symbol}
+              totalSupply={tokenInfo.token.totalSupply}
+              decimals={tokenInfo.token.decimals}
             />
             <div>
               {/* TODO: Link to Etherscan */}
-              <EtherScanLink
-                href={value.tokenInfo.tokenAddress}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
+              <EtherScanLink href="/" target="_blank" rel="noreferrer noopener">
                 View on Etherscan
                 <OpenInNewRoundedIcon
                   fontSize="small"
@@ -90,8 +86,8 @@ export const TokenInfopageTemplate = ({ value }) => {
             </Typography>
             <div>
               <UserAvatar
-                userName={value.creator.userName}
-                iconImageUrl={value.creator.iconImageUrl}
+                userName={creatorInfo.name}
+                iconImageUrl={creatorInfo.imageUrl}
               />
             </div>
             <Typography
@@ -102,12 +98,12 @@ export const TokenInfopageTemplate = ({ value }) => {
               Witness
             </Typography>
             <div>
-              {value.witness.map((witness) => {
+              {witness.map((witness, index) => {
                 return (
                   <UserAvatar
-                    userName={witness.userName}
-                    iconImageUrl={value.witness.iconImageUrl}
-                    key={witness.userName + witness.iconImageUrl}
+                    userName={witness.name}
+                    iconImageUrl={witness.imageUrl}
+                    key={witness.userName + witness.imageUrl + index}
                   />
                 );
               })}

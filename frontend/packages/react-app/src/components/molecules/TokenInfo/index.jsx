@@ -30,25 +30,31 @@ export const TokenInfo = ({ tokenName, symbol, totalSupply, decimals }) => (
     <dl>
       <Wrapper>
         <StyledDt>Name:</StyledDt>
-        <StyledDd>{tokenName ?? <Skeleton variant="text" />}</StyledDd>
+        <StyledDd>
+          {tokenName === "" ? <Skeleton variant="text" /> : tokenName}
+        </StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Symbol:</StyledDt>
-        <StyledDd>{symbol ?? <Skeleton variant="text" />}</StyledDd>
+        <StyledDd>
+          {symbol === "" ? <Skeleton variant="text" /> : symbol}
+        </StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Total Supply:</StyledDt>
         <StyledDd>
-          {totalSupply ? (
-            totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          ) : (
+          {totalSupply === "" ? (
             <Skeleton variant="text" />
+          ) : (
+            totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           )}
         </StyledDd>
       </Wrapper>
       <Wrapper>
         <StyledDt>Decimals:</StyledDt>
-        <StyledDd>{decimals ?? <Skeleton variant="text" />}</StyledDd>
+        <StyledDd>
+          {decimals === 0 ? <Skeleton variant="text" /> : decimals}
+        </StyledDd>
       </Wrapper>
     </dl>
   </>

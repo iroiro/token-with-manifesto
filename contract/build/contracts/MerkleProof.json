@@ -1763,7 +1763,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.2",
-  "updatedAt": "2021-02-09T02:05:51.709Z",
+  "updatedAt": "2021-02-09T02:45:41.642Z",
   "devdoc": {
     "details": "These functions deal with verification of Merkle trees (hash trees),",
     "kind": "dev",

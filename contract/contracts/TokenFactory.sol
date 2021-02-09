@@ -5,7 +5,7 @@ import "./TWM.sol";
 
 contract TokenFactory {
   address[] tokens;
-  event CreateToken(address, string, string[3]); // token address, creator did, witness dids
+  event CreateToken(address token, string creator, string[3] witnessDids);
 
   function createToken(
     string memory name,

@@ -2069,7 +2069,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.2",
-  "updatedAt": "2021-02-09T02:05:51.836Z",
+  "updatedAt": "2021-02-09T02:45:41.703Z",
   "devdoc": {
     "details": "Collection of functions related to array types.",
     "kind": "dev",

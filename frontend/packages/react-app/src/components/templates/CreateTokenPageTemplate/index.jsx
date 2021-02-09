@@ -8,7 +8,6 @@ import { StyledNumber } from "../../molecules/StyledNumber";
 import { EditProfile } from "../../molecules/EditProfile";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import WalletButton from "../../atoms/WalletButton";
 
 const StyledInput = styled(TextField)`
   width: 100%;
@@ -69,6 +68,7 @@ export const CreateTokenPageTemplate = ({
     setImageFile(e.target.files[0]);
   };
 
+  // TODO update
   const checkSave = !(name !== "" && image !== "" && pdfName !== "");
 
   return (
@@ -252,7 +252,7 @@ export const CreateTokenPageTemplate = ({
                     component="h2"
                     style={{ marginBottom: 8 }}
                   >
-                    Shere your manifesto
+                    Share your manifesto
                     <br /> to 3 witness
                   </Typography>
                 </StyledNumber>

@@ -63,7 +63,6 @@ function CreateTokenPage() {
     f();
   }, [isNew, doc, error, saveManifesto]);
 
-  // TODO Integrate with template
   return (
     <CreateTokenPageTemplate
       doc={doc}

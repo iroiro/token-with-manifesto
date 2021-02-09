@@ -7,7 +7,7 @@ const ipfs = IpfsHttpClient(infura);
 const imageURLPrefix = "https://gateway.pinata.cloud/ipfs/";
 
 const useIdxBasicProfile = (idx) => {
-  const [name, setName] = useState(undefined);
+  const [name, setName] = useState("");
   const [image, setImage] = useState(undefined);
   const [imageURL, setImageURL] = useState(undefined);
 
@@ -18,13 +18,12 @@ const useIdxBasicProfile = (idx) => {
       }
       const basicProfile = await idx.get("basicProfile");
       if (basicProfile === null) {
-        setName(undefined);
+        setName("");
         setImage(undefined);
         setImageURL(undefined);
         return;
       }
-      const name = basicProfile.name;
-      setName(name);
+      setName(basicProfile.name === undefined ? "" : basicProfile.name);
       if (
         basicProfile.image === undefined ||
         basicProfile.image.original === undefined

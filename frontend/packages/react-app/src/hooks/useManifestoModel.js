@@ -2,6 +2,19 @@ import { useCallback, useState } from "react";
 import { manifestosCollection, threadId } from "../utils/textile";
 import { Where } from "@textile/hub";
 
+const mockManifestoModel = {
+  manifesto_doc_id: "",
+  manifesto_doc_commit_id: "",
+  creator_did: "",
+  witness_signatures: [
+    {
+      did: "",
+      signature: "",
+      wallet_address: "",
+    },
+  ],
+};
+
 const useManifestoModel = (client) => {
   const [manifesto, setManifesto] = useState(undefined);
 

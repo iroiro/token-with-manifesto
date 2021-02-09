@@ -10,6 +10,7 @@ import useThreadDB from "../../hooks/useThreadDB";
 import useManifestoModel from "../../hooks/useManifestoModel";
 import { useEffect, useState } from "react";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
+import useSignManifesto from "../../hooks/useSignManifesto";
 
 function WitnessSignPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
@@ -19,6 +20,12 @@ function WitnessSignPage() {
   const [manifestoDocId, setManifestoDocId] = useState("");
   const { manifesto, getManifesto } = useManifestoModel(client);
   const { tokenBasicInfo, getTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
+  const { signManifestoAndSave } = useSignManifesto(
+    provider,
+    ceramic,
+    idx,
+    client
+  );
 
   useEffect(() => {
     if (manifesto === undefined || manifesto.manifesto_doc_id === undefined) {
@@ -26,6 +33,8 @@ function WitnessSignPage() {
     }
     getTokenBasicInfo(manifesto.manifesto_doc_id);
   }, [manifesto, getTokenBasicInfo]);
+
+  // TODO download manifest file
 
   // TODO Integrate with template
   return (
@@ -54,7 +63,9 @@ function WitnessSignPage() {
         <Typography>Fill in your info</Typography>
         <TextField value={userName} />
         <Button>Save Profile</Button>
-        <Button>Sign</Button>
+        <Button onClick={() => signManifestoAndSave(manifesto, manifestoDocId)}>
+          Sign
+        </Button>
       </Main>
     </div>
   );

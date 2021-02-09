@@ -34,6 +34,19 @@ function WitnessSignPage() {
     getTokenBasicInfo(manifesto.manifesto_doc_id);
   }, [manifesto, getTokenBasicInfo]);
 
+  useEffect(() => {
+    if (
+      tokenBasicInfo === undefined ||
+      tokenBasicInfo.manifestoCid === undefined
+    ) {
+      return;
+    }
+    window.open(
+      `https://gateway.pinata.cloud/ipfs/${tokenBasicInfo.manifestoCid}`,
+      "_blank"
+    );
+  }, [tokenBasicInfo]);
+
   // TODO download manifest file
 
   // TODO Integrate with template
@@ -66,6 +79,13 @@ function WitnessSignPage() {
         <Button onClick={() => signManifestoAndSave(manifesto, manifestoDocId)}>
           Sign
         </Button>
+        <a
+          href="https://gateway.pinata.cloud/ipfs/QmSAdbek1DDb91BM8no29LeRxapusH72pmMZWs8zokGt6p"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Click me
+        </a>
       </Main>
     </div>
   );

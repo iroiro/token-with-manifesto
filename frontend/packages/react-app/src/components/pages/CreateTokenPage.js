@@ -2,12 +2,12 @@ import * as React from "react";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
 import { useEffect, useState } from "react";
-import { Client } from "@textile/hub";
-import { manifestosCollection, threadId } from "../../utils/textile";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 import { CreateTokenPageTemplate } from "../templates/CreateTokenPageTemplate";
 import { useParams } from "react-router-dom";
+import useManifestoModel from "../../hooks/useManifestoModel";
+import useThreadDB from "../../hooks/useThreadDB";
 
 function CreateTokenPage() {
   const { docId } = useParams();
@@ -24,14 +24,14 @@ function CreateTokenPage() {
   } = useIdxBasicProfile(idx);
 
   const [imageFile, setImageFile] = useState(undefined);
+  const [isSaved, setIsSaved] = useState(false);
   const [pdfName, setPdfName] = useState("");
   const [manifestoFile, setManifestoFile] = useState(undefined);
-  const [manifesto, setManifesto] = useState({
-    manifesto_doc_id: "",
-    manifesto_doc_commit_id: "",
-    creator_did: "",
-    witness_signatures: [],
-  });
+  const { client } = useThreadDB();
+  const { manifesto, getManifesto, saveManifesto } = useManifestoModel(
+    client,
+    idx
+  );
   const {
     doc,
     error,
@@ -40,46 +40,28 @@ function CreateTokenPage() {
     setTokenBasicInfo,
     saveTokenBasicInfo,
   } = useTokenBasicInfo(ceramic, idx);
-  console.debug(pdfName, manifestoFile);
 
-  console.debug(doc);
+  useEffect(() => {
+    setIsSaved(docId !== undefined);
+  }, [docId, setIsSaved]);
 
   useEffect(() => {
     getTokenBasicInfo(docId);
-  }, [docId, ceramic, idx]);
+  }, [docId, getTokenBasicInfo]);
 
-  // TODO just teset. remove
   useEffect(() => {
-    const f = async () => {
-      const client = await Client.withKeyInfo({
-        key: process.env.REACT_APP_THREADDB_KEY,
-        secret: process.env.REACT_APP_THREADDB_SECRET,
-      });
-      console.debug(await client.find(threadId, manifestosCollection, {}));
-    };
-    f();
-  }, []);
+    getManifesto(docId);
+  }, [getManifesto, docId]);
 
   useEffect(() => {
     const f = async () => {
-      if (!isNew || doc === undefined || error !== undefined) {
+      if (!isNew || doc === undefined) {
         return;
       }
-      const manifesto = {
-        manifesto_doc_id: doc.id.toString(),
-        manifesto_doc_commit_id: doc.commitId.commit.toString(),
-        creator_did: idx.id,
-        witness_signatures: [],
-      };
-      const client = await Client.withKeyInfo({
-        key: process.env.REACT_APP_THREADDB_KEY,
-        secret: process.env.REACT_APP_THREADDB_SECRET,
-      });
-      await client.create(threadId, manifestosCollection, [manifesto]);
-      setManifesto(manifesto);
+      await saveManifesto(doc);
     };
     f();
-  }, [isNew, doc]);
+  }, [isNew, doc, error, saveManifesto]);
 
   // TODO Integrate with template
   return (
@@ -91,6 +73,8 @@ function CreateTokenPage() {
       manifestoFile={manifestoFile}
       name={name}
       pdfName={pdfName}
+      isSaved={isSaved}
+      setIsSaved={setIsSaved}
       saveTokenBasicInfo={saveTokenBasicInfo}
       saveIdxBasicProfile={saveIdxBasicProfile}
       setImage={setImageURL}

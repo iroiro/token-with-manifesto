@@ -48,6 +48,8 @@ export const CreateTokenPageTemplate = ({
   manifestoFile,
   name,
   pdfName,
+  isSaved,
+  setIsSaved,
   saveTokenBasicInfo,
   saveIdxBasicProfile,
   setImage,
@@ -61,8 +63,6 @@ export const CreateTokenPageTemplate = ({
   loadWeb3Modal,
   logoutOfWeb3Modal,
 }) => {
-  const [isSaved, setIsSaved] = useState(false);
-
   const handleImageUpload = (e) => {
     const image = URL.createObjectURL(e.target.files[0]);
     setImage(image);
@@ -243,8 +243,7 @@ export const CreateTokenPageTemplate = ({
               </Button>
             </div>
           )}
-          {/* TODO remove true */}
-          {doc !== undefined && (
+          {doc !== undefined && manifesto !== undefined && (
             <>
               <Frame variant="outlined">
                 <StyledNumber number="4">

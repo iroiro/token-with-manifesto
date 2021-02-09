@@ -47,8 +47,6 @@ function WitnessSignPage() {
     );
   }, [tokenBasicInfo]);
 
-  // TODO download manifest file
-
   // TODO Integrate with template
   return (
     <div>

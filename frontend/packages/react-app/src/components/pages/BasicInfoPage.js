@@ -7,7 +7,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Client } from "@textile/hub";
 import { manifestosCollection, threadId } from "../../utils/textile";
-import useSaveTokenBasicInfo from "../../hooks/useSaveTokenBasicInfo";
+import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 
 function BasicInfoPage() {
@@ -27,10 +27,7 @@ function BasicInfoPage() {
   });
   const [imageFile, setImageFile] = useState(undefined);
   const [manifestoFile, setManifestoFile] = useState(undefined);
-  const { doc, error, saveTokenBasicInfo } = useSaveTokenBasicInfo(
-    ceramic,
-    idx
-  );
+  const { doc, error, saveTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
 
   // TODO just teset. remove
   useEffect(() => {

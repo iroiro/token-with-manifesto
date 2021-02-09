@@ -17,9 +17,36 @@ const mockTokenInfo = {
 const tokenInfoSchema =
   "ceramic://k3y52l7qbv1frxs11yw808uledicr7q3aq1vjihd7m2w2mo66f8w5z200pwli0dts";
 
-const useSaveTokenBasicInfo = (ceramic, idx) => {
+const useTokenBasicInfo = (ceramic, idx) => {
   const [doc, setDoc] = useState(undefined);
+  const [tokenBasicInfo, setTokenBasicInfo] = useState({
+    token: {
+      name: "",
+      symbol: "",
+      totalSupply: "",
+      decimals: 0,
+    },
+    manifestoCid: "",
+  });
   const [error, setError] = useState(undefined);
+
+  const getTokenBasicInfo = useCallback(
+    async (docId) => {
+      if (ceramic === undefined || idx === undefined || docId === "") {
+        return;
+      }
+      return await ceramic
+        .loadDocument(docId)
+        .then((doc) => {
+          setDoc(doc);
+          setTokenBasicInfo(doc.content);
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    },
+    [ceramic, idx, setDoc, setTokenBasicInfo]
+  );
 
   const saveTokenBasicInfo = useCallback(
     async (manifestoFile, tokenInfoWithManifesto) => {
@@ -45,15 +72,23 @@ const useSaveTokenBasicInfo = (ceramic, idx) => {
         })
         .then((saved) => {
           setDoc(saved);
+          setTokenBasicInfo(saved.content);
         })
         .catch((err) => {
           setError(err);
         });
     },
-    [ceramic, idx, setDoc, setError]
+    [ceramic, idx, setDoc, setTokenBasicInfo, setError]
   );
 
-  return { doc, error, saveTokenBasicInfo };
+  return {
+    doc,
+    tokenBasicInfo,
+    setTokenBasicInfo,
+    error,
+    getTokenBasicInfo,
+    saveTokenBasicInfo,
+  };
 };
 
-export default useSaveTokenBasicInfo;
+export default useTokenBasicInfo;

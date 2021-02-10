@@ -50,6 +50,7 @@ export const CreateTokenPageTemplate = ({
   pdfName,
   isSaved,
   setIsSaved,
+  setViewTokenInfo,
   saveTokenBasicInfo,
   saveIdxBasicProfile,
   setImage,
@@ -289,19 +290,34 @@ export const CreateTokenPageTemplate = ({
                     <DenominatorNumber>/ 3</DenominatorNumber>
                   </SignaturesWrapper>
                 </div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disableElevation
-                  style={{
-                    minWidth: 240,
-                    width: "100%",
-                  }}
-                  onClick={() => createToken(doc, manifesto)}
-                  disabled={manifesto.witness_signatures.length !== 3}
-                >
-                  Create Token with Manifesto
-                </Button>
+                {doc.content.token.deployedAddress === undefined ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    style={{
+                      minWidth: 240,
+                      width: "100%",
+                    }}
+                    onClick={() => createToken(doc, manifesto)}
+                    disabled={manifesto.witness_signatures.length !== 3}
+                  >
+                    Create Token with Manifesto
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    style={{
+                      minWidth: 240,
+                      width: "100%",
+                    }}
+                    onClick={() => setViewTokenInfo(true)}
+                  >
+                    View Deployed Token Info
+                  </Button>
+                )}
               </div>
             </>
           )}

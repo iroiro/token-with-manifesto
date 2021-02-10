@@ -44,6 +44,7 @@ function CreateTokenPage() {
     updateTokenBasicInfo,
   } = useTokenBasicInfo(ceramic, idx);
   const { deployedAddress, createToken } = useCreateToken(provider);
+  const [viewTokenInfo, setViewTokenInfo] = useState(false);
 
   useEffect(() => {
     setIsSaved(docId !== undefined);
@@ -62,11 +63,14 @@ function CreateTokenPage() {
   }, [doc, deployedAddress, updateTokenBasicInfo]);
 
   useEffect(() => {
-    if (!isUpdated || doc === undefined) {
+    if (doc === undefined) {
+      return;
+    }
+    if (!isUpdated && !viewTokenInfo) {
       return;
     }
     history.push(`/token/${doc.id.toString()}`);
-  }, [isUpdated, history, doc]);
+  }, [isUpdated, history, doc, viewTokenInfo]);
 
   useEffect(() => {
     const f = async () => {
@@ -92,6 +96,7 @@ function CreateTokenPage() {
       setIsSaved={setIsSaved}
       saveTokenBasicInfo={saveTokenBasicInfo}
       saveIdxBasicProfile={saveIdxBasicProfile}
+      setViewTokenInfo={setViewTokenInfo}
       setImage={setImageURL}
       setImageFile={setImageFile}
       setManifestoFile={setManifestoFile}

@@ -28,6 +28,7 @@ const useTokenBasicInfo = (ceramic, idx) => {
     },
     manifestoCid: "",
   });
+  const [isUpdated, setIsUpdated] = useState(false);
   const [error, setError] = useState(undefined);
 
   const getTokenBasicInfo = useCallback(
@@ -81,13 +82,41 @@ const useTokenBasicInfo = (ceramic, idx) => {
     [ceramic, idx, setDoc, setTokenBasicInfo, setError]
   );
 
+  const updateTokenBasicInfo = useCallback(
+    async (tokenDoc, deployedAddress) => {
+      if (
+        ceramic === undefined ||
+        idx === undefined ||
+        tokenDoc === undefined ||
+        deployedAddress === undefined
+      ) {
+        return;
+      }
+
+      await tokenDoc.change({
+        content: {
+          ...tokenDoc.content,
+          token: {
+            ...tokenDoc.content.token,
+            deployedAddress,
+          },
+        },
+      });
+      setDoc(tokenDoc);
+      setIsUpdated(true);
+    },
+    [ceramic, idx, setDoc, setTokenBasicInfo, setError]
+  );
+
   return {
     doc,
+    isUpdated,
     tokenBasicInfo,
     setTokenBasicInfo,
     error,
     getTokenBasicInfo,
     saveTokenBasicInfo,
+    updateTokenBasicInfo,
   };
 };
 

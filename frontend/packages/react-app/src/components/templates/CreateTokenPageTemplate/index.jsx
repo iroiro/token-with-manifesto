@@ -40,6 +40,7 @@ const DenominatorNumber = styled.div`
 `;
 
 export const CreateTokenPageTemplate = ({
+  createToken,
   doc,
   image,
   imageFile,
@@ -296,7 +297,7 @@ export const CreateTokenPageTemplate = ({
                     minWidth: 240,
                     width: "100%",
                   }}
-                  onClick={() => console.log("create")}
+                  onClick={() => createToken(doc, manifesto)}
                   disabled={manifesto.witness_signatures.length !== 3}
                 >
                   Create Token with Manifesto

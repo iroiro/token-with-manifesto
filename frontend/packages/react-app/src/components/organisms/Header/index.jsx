@@ -3,10 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { theme } from "../../util/style/theme";
 import WalletButton from "../../atoms/WalletButton";
-
-const Wrapper = styled.div`
-  padding: 24px;
-`;
+import { Box } from "@material-ui/core";
 
 const Logo = styled.span`
   font-weight: 500;
@@ -19,8 +16,8 @@ const Logo = styled.span`
 
 export const Header = ({ provider, loadWeb3Modal, logoutOfWeb3Modal }) => {
   return (
-    <Wrapper>
-      <Link to="/" style={{ textDecoration: "none" }}>
+    <Box display="flex" justifyContent="space-between" p={4}>
+      <Link to="/" style={{ textDecoration: "none", marginRight: 24 }}>
         <Logo>Token with Manifesto</Logo>
       </Link>
       <WalletButton
@@ -28,6 +25,6 @@ export const Header = ({ provider, loadWeb3Modal, logoutOfWeb3Modal }) => {
         loadWeb3Modal={loadWeb3Modal}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
       />
-    </Wrapper>
+    </Box>
   );
 };

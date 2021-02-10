@@ -10,6 +10,7 @@ import { theme } from "../../util/style/theme";
 import { StyledContainer } from "../../util/style/commonStyle";
 import WalletButton from "../../atoms/WalletButton";
 import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
 
 const Card = styled(Paper)`
   padding: 22px 22px 32px;
@@ -28,8 +29,17 @@ const Describe = styled(Paper)`
 `;
 
 const StyledGrid = styled(Grid)`
+  margin-bottom: 12px;
   ${theme.breakpoints.down(600)} {
     display: block;
+  }
+`;
+
+const StyledInput = styled(TextField)`
+  width: 60%;
+  margin-bottom: 16px;
+  ${theme.breakpoints.down(600)} {
+    width: 100%;
   }
 `;
 
@@ -37,6 +47,9 @@ export const MainPageTemplate = ({
   provider,
   loadWeb3Modal,
   logoutOfWeb3Modal,
+  textValue,
+  handleTextChange,
+  handleViewButtonClick,
 }) => {
   return (
     <>
@@ -143,6 +156,24 @@ export const MainPageTemplate = ({
                 </Card>
               </Grid>
             </StyledGrid>
+            <Card variant="outlined" style={{ textAlign: "center" }}>
+              <StyledInput
+                label="Input Manifesto Doc ID"
+                value={textValue}
+                onChange={handleTextChange}
+              />
+              <div>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  disableElevation
+                  style={{ minWidth: 240 }}
+                  onClick={handleViewButtonClick}
+                >
+                  View Token Info
+                </Button>
+              </div>
+            </Card>
           </div>
         )}
       </StyledContainer>

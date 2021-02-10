@@ -255,7 +255,7 @@ export const CreateTokenPageTemplate = ({
                     component="h2"
                     style={{ marginBottom: 8 }}
                   >
-                    Share your manifesto
+                    Save and Share your Manifesto Doc ID
                     <br /> to 3 witness
                   </Typography>
                 </StyledNumber>

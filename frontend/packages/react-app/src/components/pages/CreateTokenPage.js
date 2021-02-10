@@ -12,8 +12,8 @@ import useCreateToken from "../../hooks/useCreateToken";
 
 function CreateTokenPage() {
   const history = useHistory();
-  const { docId } = useParams();
-  const isNew = docId === undefined;
+  const { manifestoDocId } = useParams();
+  const isNew = manifestoDocId === undefined;
 
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
@@ -47,16 +47,16 @@ function CreateTokenPage() {
   const [viewTokenInfo, setViewTokenInfo] = useState(false);
 
   useEffect(() => {
-    setIsSaved(docId !== undefined);
-  }, [docId, setIsSaved]);
+    setIsSaved(manifestoDocId !== undefined);
+  }, [manifestoDocId, setIsSaved]);
 
   useEffect(() => {
-    getTokenBasicInfo(docId);
-  }, [docId, getTokenBasicInfo]);
+    getTokenBasicInfo(manifestoDocId);
+  }, [manifestoDocId, getTokenBasicInfo]);
 
   useEffect(() => {
-    getManifesto(docId);
-  }, [getManifesto, docId]);
+    getManifesto(manifestoDocId);
+  }, [getManifesto, manifestoDocId]);
 
   useEffect(() => {
     updateTokenBasicInfo(doc, deployedAddress);

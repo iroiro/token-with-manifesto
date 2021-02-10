@@ -28,11 +28,12 @@ export const TokenInfopageTemplate = ({
   handleReadManifestoButtonClick,
 }) => (
   <>
-      <Header
-          provider={provider}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-      />    <StyledContainer maxWidth="sm">
+    <Header
+      provider={provider}
+      loadWeb3Modal={loadWeb3Modal}
+      logoutOfWeb3Modal={logoutOfWeb3Modal}
+    />
+    <StyledContainer maxWidth="sm">
       <div>
         <IconTitle icon="ℹ️" title="Token Info" />
         <Frame variant="outlined">

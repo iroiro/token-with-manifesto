@@ -54,7 +54,7 @@ export const SignPageTemplate = ({
               Manifesto
             </Typography>
             <StyledInput
-              label="Input Manifesto ID"
+              label="Input Manifesto Doc ID"
               value={manifestoDocId}
               onChange={(e) => setManifestoDocId(e.target.value)}
             />

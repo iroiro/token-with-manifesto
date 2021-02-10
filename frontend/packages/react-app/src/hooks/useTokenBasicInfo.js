@@ -58,13 +58,16 @@ const useTokenBasicInfo = (ceramic, idx, buckets, bucketKey) => {
       ) {
         return;
       }
-      // TODO pinning cid
-      const { path } = await ipfs.add(manifestoFile);
+      const result = await buckets.pushPath(
+        bucketKey,
+        manifestoFile.name,
+        manifestoFile
+      );
       return await ceramic
         .createDocument("tile", {
           content: {
             ...tokenInfoWithManifesto,
-            manifestoCid: path,
+            manifestoCid: result.path.cid.toString(),
           },
           metadata: {
             schema: tokenInfoSchema,

@@ -45,7 +45,7 @@ function CreateTokenPage() {
     setTokenBasicInfo,
     saveTokenBasicInfo,
     updateTokenBasicInfo,
-  } = useTokenBasicInfo(ceramic, idx);
+  } = useTokenBasicInfo(ceramic, idx, buckets, bucketKey);
   const { deployedAddress, createToken } = useCreateToken(provider);
   const [viewTokenInfo, setViewTokenInfo] = useState(false);
 

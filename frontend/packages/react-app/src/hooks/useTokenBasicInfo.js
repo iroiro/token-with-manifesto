@@ -17,7 +17,7 @@ const mockTokenInfo = {
 const tokenInfoSchema =
   "ceramic://k3y52l7qbv1frxnj7glmjwy8ul705l8aznpv6iddpkpj0vbpn2antv1ugf4yl8b28";
 
-const useTokenBasicInfo = (ceramic, idx) => {
+const useTokenBasicInfo = (ceramic, idx, buckets, bucketKey) => {
   const [doc, setDoc] = useState(undefined);
   const [tokenBasicInfo, setTokenBasicInfo] = useState({
     token: {
@@ -79,7 +79,7 @@ const useTokenBasicInfo = (ceramic, idx) => {
           setError(err);
         });
     },
-    [ceramic, idx, setDoc, setTokenBasicInfo, setError]
+    [ceramic, idx, buckets, bucketKey, setDoc, setTokenBasicInfo, setError]
   );
 
   const updateTokenBasicInfo = useCallback(

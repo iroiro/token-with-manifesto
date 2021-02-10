@@ -8,6 +8,7 @@ import { StyledNumber } from "../../molecules/StyledNumber";
 import { EditProfile } from "../../molecules/EditProfile";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { CopyToClipboard } from "react-copy-to-clipboard/lib/Component";
 
 const StyledInput = styled(TextField)`
   width: 100%;
@@ -263,17 +264,19 @@ export const CreateTokenPageTemplate = ({
                     {doc.id.toString()}
                   </Typography>
                 </div>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  disableElevation
-                  style={{
-                    minWidth: 240,
-                    width: "100%",
-                  }}
-                >
-                  Copy
-                </Button>
+                <CopyToClipboard text={doc.id.toString()}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    disableElevation
+                    style={{
+                      minWidth: 240,
+                      width: "100%",
+                    }}
+                  >
+                    Copy
+                  </Button>
+                </CopyToClipboard>
               </Frame>
               <div style={{ maxWidth: 416, margin: "32px auto" }}>
                 <div>

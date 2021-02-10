@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 import { CreateTokenPageTemplate } from "../templates/CreateTokenPageTemplate";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import useManifestoModel from "../../hooks/useManifestoModel";
 import useThreadDB from "../../hooks/useThreadDB";
+import useCreateToken from "../../hooks/useCreateToken";
 
 function CreateTokenPage() {
+  const history = useHistory();
   const { docId } = useParams();
   const isNew = docId === undefined;
 
@@ -22,7 +24,6 @@ function CreateTokenPage() {
     setImageURL,
     saveIdxBasicProfile,
   } = useIdxBasicProfile(idx);
-
   const [imageFile, setImageFile] = useState(undefined);
   const [isSaved, setIsSaved] = useState(false);
   const [pdfName, setPdfName] = useState("");
@@ -32,15 +33,18 @@ function CreateTokenPage() {
     client,
     idx
   );
-
   const {
     doc,
+    isUpdated,
     error,
     tokenBasicInfo,
     getTokenBasicInfo,
     setTokenBasicInfo,
     saveTokenBasicInfo,
+    updateTokenBasicInfo,
   } = useTokenBasicInfo(ceramic, idx);
+  const { deployedAddress, createToken } = useCreateToken(provider);
+  const [viewTokenInfo, setViewTokenInfo] = useState(false);
 
   useEffect(() => {
     setIsSaved(docId !== undefined);
@@ -55,6 +59,20 @@ function CreateTokenPage() {
   }, [getManifesto, docId]);
 
   useEffect(() => {
+    updateTokenBasicInfo(doc, deployedAddress);
+  }, [doc, deployedAddress, updateTokenBasicInfo]);
+
+  useEffect(() => {
+    if (doc === undefined) {
+      return;
+    }
+    if (!isUpdated && !viewTokenInfo) {
+      return;
+    }
+    history.push(`/token/${doc.id.toString()}`);
+  }, [isUpdated, history, doc, viewTokenInfo]);
+
+  useEffect(() => {
     const f = async () => {
       if (!isNew || doc === undefined) {
         return;
@@ -66,6 +84,7 @@ function CreateTokenPage() {
 
   return (
     <CreateTokenPageTemplate
+      createToken={createToken}
       doc={doc}
       image={imageURL}
       imageFile={imageFile}
@@ -77,6 +96,7 @@ function CreateTokenPage() {
       setIsSaved={setIsSaved}
       saveTokenBasicInfo={saveTokenBasicInfo}
       saveIdxBasicProfile={saveIdxBasicProfile}
+      setViewTokenInfo={setViewTokenInfo}
       setImage={setImageURL}
       setImageFile={setImageFile}
       setManifestoFile={setManifestoFile}

@@ -1,0 +1,94 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "creator",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string[3]",
+        "name": "witnessDids",
+        "type": "string[3]"
+      }
+    ],
+    "name": "CreateToken",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalSupply",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_docId",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_docIdHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "_creatorDid",
+        "type": "string"
+      },
+      {
+        "internalType": "string[3]",
+        "name": "_witnessDids",
+        "type": "string[3]"
+      },
+      {
+        "internalType": "bytes[3]",
+        "name": "_witnessSigs",
+        "type": "bytes[3]"
+      },
+      {
+        "internalType": "address[3]",
+        "name": "_witnessAddresses",
+        "type": "address[3]"
+      }
+    ],
+    "name": "createToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokensCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  }
+]

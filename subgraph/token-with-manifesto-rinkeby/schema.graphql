@@ -1,0 +1,9 @@
+type Token @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  decimals: Int
+  totalSupply: BigInt!
+  creator: String! # did
+  witnessDids: [String!]! # dids
+}

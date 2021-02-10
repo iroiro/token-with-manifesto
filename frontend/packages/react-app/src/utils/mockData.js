@@ -33,13 +33,13 @@ export const mockManifestoModel = {
 
 export const mockCeramicDocResponse = {
   content: {
-    deployedAddress: "0x395b393793d1d64f86891781297116512f108fee",
     manifestoCid: "QmSAdbek1DDb91BM8no29LeRxapusH72pmMZWs8zokGt6p",
     token: {
       decimals: 10,
       name: "token",
       symbol: "TKN",
       totalSupply: "1000000",
+      deployedAddress: "0x395b393793d1d64f86891781297116512f108fee",
     },
   },
 };

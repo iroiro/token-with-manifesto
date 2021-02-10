@@ -115,7 +115,9 @@ function TokenInfoPage() {
       provider={provider}
       loadWeb3Modal={loadWeb3Modal}
       logoutOfWeb3Modal={logoutOfWeb3Modal}
-      tokenInfo={token}
+      tokenInfo={
+        token !== undefined && token.token === null ? tokenBasicInfo : token
+      }
       creatorInfo={creatorInfo}
       witness={witnessArray}
       handleReadManifestoButtonClick={handleReadManifestoButtonClick}

@@ -17,9 +17,7 @@ function App() {
             <Route exact path="/">
               <HomePage />
             </Route>
-            <Route exact path="/creator/token">
-              <CreateTokenPage />
-            </Route>
+            <Route exact path="/creator/token" component={CreateTokenPage} />
             <Route path="/creator/token/:docId">
               <CreateTokenPage />
             </Route>

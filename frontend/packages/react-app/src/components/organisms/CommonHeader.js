@@ -11,7 +11,7 @@ const CommonHeader = ({ provider, loadWeb3Modal, logoutOfWeb3Modal }) => (
     <Link to="/creator/basic">
       <Button>Register basic info</Button>
     </Link>
-    <Link to="/creator/create">
+    <Link to="/creator/token">
       <Button>Create token</Button>
     </Link>
     <Link to="/witness/sign">

@@ -1,7 +1,6 @@
 import * as React from "react";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
-import CommonHeader from "../organisms/CommonHeader";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 import useThreadDB from "../../hooks/useThreadDB";
 import useManifestoModel from "../../hooks/useManifestoModel";
@@ -43,7 +42,8 @@ function WitnessSignPage() {
   useEffect(() => {
     if (
       tokenBasicInfo === undefined ||
-      tokenBasicInfo.manifestoCid === undefined
+      tokenBasicInfo.manifestoCid === undefined ||
+      tokenBasicInfo.manifestoCid === ""
     ) {
       return;
     }

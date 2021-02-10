@@ -43,7 +43,7 @@ const DenominatorNumber = styled.div`
 export const CreateTokenPageTemplate = ({
   createToken,
   doc,
-  image,
+  imageURL,
   imageFile,
   manifesto,
   manifestoFile,
@@ -72,7 +72,7 @@ export const CreateTokenPageTemplate = ({
   };
 
   // TODO update
-  const checkSave = !(name !== "" && image !== "" && pdfName !== "");
+  const checkSave = !(name !== "" && imageURL !== "" && pdfName !== "");
 
   return (
     <>
@@ -97,7 +97,7 @@ export const CreateTokenPageTemplate = ({
             <EditProfile
               name={name}
               onNameChange={(e) => setName(e.target.value)}
-              image={image}
+              imageURL={imageURL}
               handleImageUpload={handleImageUpload}
               onUpdateButtonClick={() => saveIdxBasicProfile(name, imageFile)}
             />

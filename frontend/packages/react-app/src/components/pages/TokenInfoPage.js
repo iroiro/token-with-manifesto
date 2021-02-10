@@ -56,6 +56,15 @@ function TokenInfoPage() {
         "basicProfile",
         manifesto.creator_did
       );
+      if (
+        creatorBasicInfo.image === undefined ||
+        creatorBasicInfo.image.original === undefined
+      ) {
+        setCreatorInfo({
+          name: creatorBasicInfo.name,
+          imageUrl: "",
+        });
+      }
       setCreatorInfo({
         name: creatorBasicInfo.name,
         imageUrl:
@@ -73,6 +82,15 @@ function TokenInfoPage() {
       const witnessInfoArray = manifesto.witness_signatures.map(
         async (signature) => {
           const witnessInfo = await idx.get("basicProfile", signature.did);
+          if (
+            witnessInfo.image === undefined ||
+            witnessInfo.image.original === undefined
+          ) {
+            return {
+              name: witnessInfo.name,
+              imageUrl: "",
+            };
+          }
           return {
             name: witnessInfo.name,
             imageUrl: imageURLPrefix + witnessInfo.image.original.src.substr(7),
@@ -97,7 +115,9 @@ function TokenInfoPage() {
       provider={provider}
       loadWeb3Modal={loadWeb3Modal}
       logoutOfWeb3Modal={logoutOfWeb3Modal}
-      tokenInfo={token}
+      tokenInfo={
+        token !== undefined && token.token === null ? tokenBasicInfo : token
+      }
       creatorInfo={creatorInfo}
       witness={witnessArray}
       handleReadManifestoButtonClick={handleReadManifestoButtonClick}

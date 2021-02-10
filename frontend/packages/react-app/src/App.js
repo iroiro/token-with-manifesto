@@ -21,9 +21,7 @@ function App() {
             <Route path="/creator/token/:docId" component={CreateTokenPage} />
             <Route path="/witness/sign" component={WitnessSignPage} />
             {/* TODO get token address as variable */}
-            <Route path="/token/:manifestoDocId">
-              <TokenInfoPage />
-            </Route>
+            <Route path="/token/:manifestoDocId" component={TokenInfoPage} />
             {/*  TODO add more pages  */}
           </Switch>
         </Router>

@@ -15,6 +15,9 @@ const StyledInput = styled(TextField)`
 `;
 
 export const SignPageTemplate = ({
+  provider,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
   tokenBasicInfo,
   userName,
   setName,
@@ -38,7 +41,11 @@ export const SignPageTemplate = ({
 
   return (
     <>
-      <Header />
+      <Header
+        provider={provider}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+      />
       <StyledContainer maxWidth="sm">
         <div>
           <IconTitle icon="✍️" title="Sign Manifesto" />

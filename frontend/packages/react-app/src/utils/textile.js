@@ -42,6 +42,21 @@ export const manifestosSchema = {
   },
 };
 
+export const walletAddressDidsSchema = {
+  title: "Wallet address and DID relationship",
+  type: "object",
+  required: ["wallet_address", "did"],
+  properties: {
+    _id: { type: "string" },
+    wallet_address: {
+      type: "string",
+    },
+    did: {
+      type: "string",
+    },
+  },
+};
+
 export const mockManifesto = {
   manifesto_doc_id: "[manifesto dpc id]",
   manifesto_doc_commit_id: "",
@@ -56,6 +71,8 @@ export const mockManifesto = {
 };
 
 export const manifestosCollection = "Manifestos";
+
+export const walletAddressDidsCollection = "WalletAddressDids";
 
 export const threadId = ThreadID.fromString(
   "bafkrry3cmc7c3pqiddusuookcsjhqhz33eocniwtfncifef4mxgo4oy"
@@ -72,8 +89,8 @@ export const testThreadDB = async () => {
 
   // await client
   //   .newCollection(threadId, {
-  //     name: manifestosCollection,
-  //     schema: manifestosSchema,
+  //     name: walletAddressDidsCollection,
+  //     schema: walletAddressDidsSchema,
   //   })
   //   .then((result) => {
   //     console.debug("result", result);
@@ -81,7 +98,7 @@ export const testThreadDB = async () => {
   //   .catch((error) => {
   //     console.error(error);
   //   });
-
+  //
   // console.debug(await client.listCollections(threadId));
 
   // client.deleteDB(threadId)

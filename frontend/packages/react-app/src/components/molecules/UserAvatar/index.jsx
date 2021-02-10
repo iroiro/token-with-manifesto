@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const StyledIcon = styled(Avatar)`
   width: 82px;
@@ -23,8 +24,21 @@ export const UserAvatar = ({ userName, iconImageUrl }) => {
   return (
     <>
       <Wrapper>
-        <StyledIcon alt={userName} src={iconImageUrl} />
-        <UserName>{userName}</UserName>
+        {iconImageUrl === "" ? (
+          <Skeleton
+            variant="circle"
+            width={82}
+            height={82}
+            style={{ marginRight: 16 }}
+          />
+        ) : (
+          <StyledIcon alt={userName} src={iconImageUrl} />
+        )}
+        {userName === "" ? (
+          <Skeleton width={100} />
+        ) : (
+          <UserName>{userName}</UserName>
+        )}
       </Wrapper>
     </>
   );

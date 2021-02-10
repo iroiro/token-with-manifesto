@@ -39,39 +39,45 @@ const DenominatorNumber = styled.div`
   font-weight: 500;
 `;
 
-export const CreateTokenPageTemplate = ({ value }) => {
-  const [isSaved, setIsSaved] = useState(value.isSaved);
-  const [pdfName, setPdfName] = useState(value.manifesto.fileName);
-  // TODO: Move to page
-  const [name, setName] = useState(value.userInfo.name);
-  const [image, setImage] = useState(value.userInfo.iconImageUrl);
-  const [tokenName, setTokenName] = useState(value.tokenInfo.name);
-  const [symbol, setSymbol] = useState(value.tokenInfo.symbol);
-  const [decimals, setDecimals] = useState(
-    value.tokenInfo.decimals === undefined ? "" : value.tokenInfo.decimals
-  );
-  const [totalSupply, setTotalSupply] = useState(
-    value.tokenInfo.totalSupply === undefined ? "" : value.tokenInfo.totalSupply
-  );
-
+export const CreateTokenPageTemplate = ({
+  doc,
+  image,
+  imageFile,
+  manifesto,
+  manifestoFile,
+  name,
+  pdfName,
+  isSaved,
+  setIsSaved,
+  saveTokenBasicInfo,
+  saveIdxBasicProfile,
+  setImage,
+  setName,
+  setImageFile,
+  setManifestoFile,
+  setPdfName,
+  setTokenBasicInfo,
+  tokenBasicInfo,
+  provider,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
+}) => {
   const handleImageUpload = (e) => {
     const image = URL.createObjectURL(e.target.files[0]);
     setImage(image);
+    setImageFile(e.target.files[0]);
   };
 
-  const checkSave = !(
-    name !== "" &&
-    image !== "" &&
-    pdfName !== "" &&
-    tokenName !== "" &&
-    symbol !== "" &&
-    decimals !== "" &&
-    totalSupply !== ""
-  );
+  // TODO update
+  const checkSave = !(name !== "" && image !== "" && pdfName !== "");
 
   return (
     <>
-      <Header />
+      <Header
+        provider={provider}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+      />
       <StyledContainer maxWidth="sm">
         <div>
           <IconTitle icon="📝" title="Create Token with Manifesto" />
@@ -90,7 +96,7 @@ export const CreateTokenPageTemplate = ({ value }) => {
               onNameChange={(e) => setName(e.target.value)}
               image={image}
               handleImageUpload={handleImageUpload}
-              onUpdateButtonClick={() => console.log("update")}
+              onUpdateButtonClick={() => saveIdxBasicProfile(name, imageFile)}
             />
           </Frame>
           <Frame variant="outlined">
@@ -105,26 +111,62 @@ export const CreateTokenPageTemplate = ({ value }) => {
             </StyledNumber>
             <StyledInput
               label="Name"
-              value={tokenName}
-              onChange={(e) => setTokenName(e.target.value)}
+              value={tokenBasicInfo.token.name}
+              onChange={(e) =>
+                setTokenBasicInfo({
+                  ...tokenBasicInfo,
+                  token: {
+                    ...tokenBasicInfo.token,
+                    name: e.target.value,
+                  },
+                })
+              }
               disabled={isSaved}
             />
             <StyledInput
               label="Symbol"
-              value={symbol}
-              onChange={(e) => setSymbol(e.target.value)}
+              value={tokenBasicInfo.token.symbol}
+              onChange={(e) =>
+                setTokenBasicInfo({
+                  ...tokenBasicInfo,
+                  token: {
+                    ...tokenBasicInfo.token,
+                    symbol: e.target.value,
+                  },
+                })
+              }
               disabled={isSaved}
             />
             <StyledInput
               label="TotalSupply"
-              value={totalSupply}
-              onChange={(e) => setTotalSupply(e.target.value)}
+              value={tokenBasicInfo.token.totalSupply}
+              onChange={(e) =>
+                setTokenBasicInfo({
+                  ...tokenBasicInfo,
+                  token: {
+                    ...tokenBasicInfo.token,
+                    totalSupply: e.target.value,
+                  },
+                })
+              }
               disabled={isSaved}
             />
             <StyledInput
               label="Decimals"
-              value={decimals}
-              onChange={(e) => setDecimals(e.target.value)}
+              value={tokenBasicInfo.token.decimals}
+              onChange={(e) => {
+                const decimals = Number.parseInt(e.target.value);
+                if (Number.isNaN(decimals)) {
+                  return;
+                }
+                setTokenBasicInfo({
+                  ...tokenBasicInfo,
+                  token: {
+                    ...tokenBasicInfo.token,
+                    decimals,
+                  },
+                });
+              }}
               disabled={isSaved}
             />
           </Frame>
@@ -157,7 +199,10 @@ export const CreateTokenPageTemplate = ({ value }) => {
                 id="button-pdf-file"
                 type="file"
                 style={{ display: "none" }}
-                onChange={(e) => setPdfName(e.target.files[0].name)}
+                onChange={(event) => {
+                  setManifestoFile(event.target.files[0]);
+                  setPdfName(event.target.files[0].name);
+                }}
                 disabled={isSaved}
               />
               <label htmlFor="button-pdf-file">
@@ -188,14 +233,17 @@ export const CreateTokenPageTemplate = ({ value }) => {
                   minWidth: 240,
                   width: "100%",
                 }}
-                onClick={() => setIsSaved(true)}
+                onClick={() => {
+                  saveTokenBasicInfo(manifestoFile, tokenBasicInfo);
+                  setIsSaved(true);
+                }}
                 disabled={checkSave}
               >
                 Save
               </Button>
             </div>
           )}
-          {isSaved && (
+          {doc !== undefined && manifesto !== undefined && (
             <>
               <Frame variant="outlined">
                 <StyledNumber number="4">
@@ -204,13 +252,13 @@ export const CreateTokenPageTemplate = ({ value }) => {
                     component="h2"
                     style={{ marginBottom: 8 }}
                   >
-                    Shere your manifesto
+                    Share your manifesto
                     <br /> to 3 witness
                   </Typography>
                 </StyledNumber>
                 <div style={{ padding: "8px 8px 28px" }}>
                   <Typography style={{ overflowWrap: "break-word" }}>
-                    {value.manifesto.id}
+                    {doc.id.toString()}
                   </Typography>
                 </div>
                 <Button
@@ -234,7 +282,9 @@ export const CreateTokenPageTemplate = ({ value }) => {
                     Number of signatures
                   </Typography>
                   <SignaturesWrapper>
-                    <SignaturesNumber>{value.witness.length}</SignaturesNumber>
+                    <SignaturesNumber>
+                      {manifesto.witness_signatures.length}
+                    </SignaturesNumber>
                     <DenominatorNumber>/ 3</DenominatorNumber>
                   </SignaturesWrapper>
                 </div>
@@ -247,7 +297,7 @@ export const CreateTokenPageTemplate = ({ value }) => {
                     width: "100%",
                   }}
                   onClick={() => console.log("create")}
-                  disabled={value.witness.length !== 3}
+                  disabled={manifesto.witness_signatures.length !== 3}
                 >
                   Create Token with Manifesto
                 </Button>

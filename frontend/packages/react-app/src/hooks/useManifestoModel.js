@@ -15,12 +15,16 @@ const mockManifestoModel = {
   ],
 };
 
-const useManifestoModel = (client) => {
+const useManifestoModel = (client, idx) => {
   const [manifesto, setManifesto] = useState(undefined);
 
   const getManifesto = useCallback(
     async (manifestoDocId) => {
-      if (client === undefined || manifestoDocId === "") {
+      if (
+        client === undefined ||
+        manifestoDocId === "" ||
+        manifestoDocId === undefined
+      ) {
         return;
       }
       const query = new Where("manifesto_doc_id").eq(manifestoDocId);
@@ -33,7 +37,24 @@ const useManifestoModel = (client) => {
     [client]
   );
 
-  return { manifesto, getManifesto };
+  const saveManifesto = useCallback(
+    async (doc) => {
+      if (client === undefined || idx === undefined) {
+        return;
+      }
+      const manifesto = {
+        manifesto_doc_id: doc.id.toString(),
+        manifesto_doc_commit_id: doc.commitId.commit.toString(),
+        creator_did: idx.id,
+        witness_signatures: [],
+      };
+      await client.create(threadId, manifestosCollection, [manifesto]);
+      setManifesto(manifesto);
+    },
+    [client, idx]
+  );
+
+  return { manifesto, getManifesto, saveManifesto };
 };
 
 export default useManifestoModel;

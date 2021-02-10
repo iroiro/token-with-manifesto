@@ -73,7 +73,7 @@ const useIdxBasicProfile = (idx) => {
     },
     [idx]
   );
-
+  
   return {
     name,
     setName,

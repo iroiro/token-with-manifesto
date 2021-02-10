@@ -1,9 +1,23 @@
 type Token @entity {
   id: ID!
-  name: String! # string
+  name: String!
   symbol: String!
   decimals: Int
   totalSupply: BigInt!
   creator: String! # did
   witnessDids: [String!]! # dids
+  accountTokens: [AccountToken!]!
+}
+
+type Account @entity {
+  id: ID!
+  tokens: [AccountToken!]! @derivedFrom(field: "account")
+}
+
+type AccountToken @entity {
+  # Token id and account id contat by '-'
+  id: ID!
+  account: Account!
+  balance: BigInt!
+  token: Token! @derivedFrom(field: "accountTokens")
 }

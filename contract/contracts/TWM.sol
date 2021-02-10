@@ -20,7 +20,8 @@ contract TokenWithManifesto is ERC20 {
     string memory _creatorDid,
     string[3] memory _witnessDids,
     bytes[3] memory _witnessSigs,
-    address[3] memory _witnessAddresses
+    address[3] memory _witnessAddresses,
+    address creatorAddress
   ) ERC20(name, symbol) {
     verifyWitnessSignatures(
       _docIdHash,
@@ -31,7 +32,7 @@ contract TokenWithManifesto is ERC20 {
     manifesto = _docId;
     creator = _creatorDid;
     witnessDids = _witnessDids;
-    _mint(msg.sender, totalSupply);
+    _mint(creatorAddress, totalSupply);
   }
 
   function verifyWitnessSignatures(

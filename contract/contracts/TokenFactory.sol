@@ -28,7 +28,8 @@ contract TokenFactory {
         _creatorDid,
         _witnessDids,
         _witnessSigs,
-        _witnessAddresses
+        _witnessAddresses,
+        msg.sender
       );
 
     tokens.push(address(newTWM));

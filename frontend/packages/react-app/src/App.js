@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import HomePage from "./components/pages/HomePage";
+import MainPage from "./components/pages/MainPage";
 import CreateTokenPage from "./components/pages/CreateTokenPage";
 import WitnessSignPage from "./components/pages/SignPage";
 import { StylesProvider } from "@material-ui/styles";
@@ -15,7 +15,7 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-              <HomePage />
+              <MainPage />
             </Route>
             <Route exact path="/creator/token" component={CreateTokenPage} />
             <Route path="/creator/token/:docId" component={CreateTokenPage} />

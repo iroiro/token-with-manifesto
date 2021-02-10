@@ -7,8 +7,9 @@ import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { theme } from "../../util/style/theme";
-import { useState } from "react";
 import { StyledContainer } from "../../util/style/commonStyle";
+import WalletButton from "../../atoms/WalletButton";
+import { Link } from "react-router-dom";
 
 const Card = styled(Paper)`
   padding: 22px 22px 32px;
@@ -32,18 +33,20 @@ const StyledGrid = styled(Grid)`
   }
 `;
 
-export const MainPageTemplate = ({ isConnected }) => {
-  const [isWalletConnected, setIsWalletconnected] = useState(isConnected);
-
-  const handleConnectButtonClick = () => {
-    setIsWalletconnected(true);
-  };
-
+export const MainPageTemplate = ({
+  provider,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
+}) => {
   return (
     <>
-      <Header />
+      <Header
+        provider={provider}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+      />
       <StyledContainer maxWidth="md">
-        {!isWalletConnected && (
+        {!provider ? (
           <>
             <Typography
               variant="h4"
@@ -58,29 +61,23 @@ export const MainPageTemplate = ({ isConnected }) => {
                 component="p"
                 style={{ marginBottom: 24 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Issuing a token is easy. But it is very difficult to operate
+                them properly. "Token with Manifesto" asks you to create a
+                Manifesto for issuing a token. Who will issue a token, for what
+                purpose, and how will they be used? We will ask you to get sign
+                the manifesto with three people. Now, let's connect to the
+                wallet and get started!
               </Typography>
               <div style={{ textAlign: "center" }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  disableElevation
-                  style={{ width: "32%", minWidth: 240 }}
-                  onClick={handleConnectButtonClick}
-                >
-                  Connect Wallet
-                </Button>
+                <WalletButton
+                  provider={provider}
+                  loadWeb3Modal={loadWeb3Modal}
+                  logoutOfWeb3Modal={logoutOfWeb3Modal}
+                />
               </div>
             </Describe>
           </>
-        )}
-        {isWalletConnected && (
+        ) : (
           <div>
             <StyledGrid container spacing={2}>
               <Grid item xs style={{ alignSelf: "stretch" }}>
@@ -105,6 +102,8 @@ export const MainPageTemplate = ({ isConnected }) => {
                       variant="contained"
                       color="primary"
                       disableElevation
+                      component={Link}
+                      to="/creator/token"
                     >
                       Create Token with Manifesto
                     </Button>
@@ -135,6 +134,8 @@ export const MainPageTemplate = ({ isConnected }) => {
                       color="primary"
                       disableElevation
                       style={{ minWidth: 240 }}
+                      component={Link}
+                      to="/witness/sign"
                     >
                       Sign Manifesto
                     </Button>

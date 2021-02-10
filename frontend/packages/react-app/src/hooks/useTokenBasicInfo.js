@@ -15,7 +15,7 @@ const mockTokenInfo = {
 };
 
 const tokenInfoSchema =
-  "ceramic://k3y52l7qbv1frxs11yw808uledicr7q3aq1vjihd7m2w2mo66f8w5z200pwli0dts";
+  "ceramic://k3y52l7qbv1frxnj7glmjwy8ul705l8aznpv6iddpkpj0vbpn2antv1ugf4yl8b28";
 
 const useTokenBasicInfo = (ceramic, idx) => {
   const [doc, setDoc] = useState(undefined);

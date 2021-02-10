@@ -35,7 +35,7 @@ export const EditProfile = ({
               id="button-file"
               type="file"
               style={{ display: "none" }}
-              onChange={handleImageUpload}
+              // onChange={handleImageUpload}
               disabled={disabled}
             />
             <label htmlFor="button-file">
@@ -59,7 +59,7 @@ export const EditProfile = ({
               id="image-file"
               type="file"
               style={{ display: "none" }}
-              onChange={handleImageUpload}
+              // onChange={handleImageUpload}
               disabled={disabled}
             />
             <label htmlFor="image-file">
@@ -77,7 +77,7 @@ export const EditProfile = ({
             disableElevation
             component="span"
             style={{ minWidth: 240, width: "100%" }}
-            onClick={onUpdateButtonClick}
+            // onClick={onUpdateButtonClick}
             disabled={disabled}
           >
             Update Your Info

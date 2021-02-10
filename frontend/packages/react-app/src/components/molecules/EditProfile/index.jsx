@@ -13,7 +13,7 @@ const StyledInput = styled(TextField)`
 export const EditProfile = ({
   name,
   onNameChange,
-  image,
+  imageURL,
   handleImageUpload,
   onUpdateButtonClick,
   disabled = false,
@@ -28,14 +28,14 @@ export const EditProfile = ({
       />
       <div>
         <InputLabel style={{ marginBottom: 16 }}>Icon image</InputLabel>
-        {image === "" && (
+        {imageURL === "" && (
           <div>
             <input
               accept="image/*"
               id="button-file"
               type="file"
               style={{ display: "none" }}
-              // onChange={handleImageUpload}
+              onChange={handleImageUpload}
               disabled={disabled}
             />
             <label htmlFor="button-file">
@@ -52,32 +52,32 @@ export const EditProfile = ({
             </label>
           </div>
         )}
-        {image !== "" && (
+        {imageURL !== "" && (
           <div style={{ marginBottom: 16 }}>
             <input
               accept="image/*"
               id="image-file"
               type="file"
               style={{ display: "none" }}
-              // onChange={handleImageUpload}
+              onChange={handleImageUpload}
               disabled={disabled}
             />
             <label htmlFor="image-file">
               <Avatar
-                src={image}
+                src={imageURL}
                 style={{ width: 82, height: 82, cursor: "pointer" }}
               />
             </label>
           </div>
         )}
-        {image !== "" && name !== "" && (
+        {imageURL !== "" && name !== "" && (
           <Button
             variant="outlined"
             color="primary"
             disableElevation
             component="span"
             style={{ minWidth: 240, width: "100%" }}
-            // onClick={onUpdateButtonClick}
+            onClick={onUpdateButtonClick}
             disabled={disabled}
           >
             Update Your Info

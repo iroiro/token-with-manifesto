@@ -17,22 +17,23 @@ const StyledInput = styled(TextField)`
 export const SignPageTemplate = ({
   tokenBasicInfo,
   userName,
+  setName,
+  image,
+  setImage,
   imageURL,
+  setImageURL,
   manifestoDocId,
   setManifestoDocId,
   manifesto,
   getManifesto,
+  saveIdxBasicProfile,
+  signManifestoAndSave,
+  isSignedAndSaved,
 }) => {
-  // TODO: Move to page
-  const [isSigned, setIsSigned] = useState(false);
-
-  // const handleImageUpload = (e) => {
-  //   const image = URL.createObjectURL(e.target.files[0]);
-  //   setImage(image);
-  // };
-
-  const handleSignButtonClick = () => {
-    setIsSigned(true);
+  const handleImageUpload = (e) => {
+    const imageURL = URL.createObjectURL(e.target.files[0]);
+    setImage(e.target.files[0]);
+    setImageURL(imageURL);
   };
 
   return (
@@ -89,10 +90,12 @@ export const SignPageTemplate = ({
                 </Typography>
                 <EditProfile
                   name={userName}
-                  // onNameChange={(e) => setName(e.target.value)}
-                  image={imageURL}
-                  // handleImageUpload={handleImageUpload}
-                  onUpdateButtonClick={() => console.log("update")}
+                  onNameChange={(e) => setName(e.target.value)}
+                  imageURL={imageURL}
+                  handleImageUpload={handleImageUpload}
+                  onUpdateButtonClick={() =>
+                    saveIdxBasicProfile(userName, image)
+                  }
                 />
               </Frame>
               <div style={{ maxWidth: 416, margin: "52px auto 32px" }}>
@@ -111,10 +114,14 @@ export const SignPageTemplate = ({
                   color="primary"
                   disableElevation
                   style={{ minWidth: 240, width: "100%" }}
-                  disabled={isSigned || userName === "" || imageURL === ""}
-                  onClick={handleSignButtonClick}
+                  disabled={
+                    isSignedAndSaved || userName === "" || imageURL === ""
+                  }
+                  onClick={() =>
+                    signManifestoAndSave(manifesto, manifestoDocId)
+                  }
                 >
-                  {isSigned ? "Signed it!" : "Sign"}
+                  {isSignedAndSaved ? "Signed it!" : "Sign"}
                 </Button>
               </div>
             </>

@@ -16,14 +16,20 @@ import { SignPageTemplate } from "../templates/SignPageTemplate";
 function WitnessSignPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
-  const { name: userName, imageURL, saveIdxBasicProfile } = useIdxBasicProfile(
-    idx
-  );
+  const {
+    name: userName,
+    setName,
+    image,
+    setImage,
+    imageURL,
+    setImageURL,
+    saveIdxBasicProfile,
+  } = useIdxBasicProfile(idx);
   const { client, isInitialized } = useThreadDB();
   const [manifestoDocId, setManifestoDocId] = useState("");
   const { manifesto, getManifesto } = useManifestoModel(client);
   const { tokenBasicInfo, getTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
-  const { signManifestoAndSave } = useSignManifesto(
+  const { signManifestoAndSave, isSignedAndSaved } = useSignManifesto(
     provider,
     ceramic,
     idx,
@@ -61,27 +67,19 @@ function WitnessSignPage() {
       <SignPageTemplate
         tokenBasicInfo={tokenBasicInfo}
         userName={userName}
+        setName={setName}
+        image={image}
+        setImage={setImage}
         imageURL={imageURL}
+        setImageURL={setImageURL}
         manifestoDocId={manifestoDocId}
         setManifestoDocId={setManifestoDocId}
         manifesto={manifesto}
         getManifesto={getManifesto}
         saveIdxBasicProfile={saveIdxBasicProfile}
+        signManifestoAndSave={signManifestoAndSave}
+        isSignedAndSaved={isSignedAndSaved}
       />
-
-      <Typography>Fill in your info</Typography>
-      <TextField value={userName} />
-      <Button>Save Profile</Button>
-      <Button onClick={() => signManifestoAndSave(manifesto, manifestoDocId)}>
-        Sign
-      </Button>
-      <a
-        href="https://gateway.pinata.cloud/ipfs/QmSAdbek1DDb91BM8no29LeRxapusH72pmMZWs8zokGt6p"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        Click me
-      </a>
     </div>
   );
 }

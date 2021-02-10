@@ -41,6 +41,7 @@ const useIdxBasicProfile = (idx) => {
 
   const saveIdxBasicProfile = useCallback(
     async (newName, newImageFile) => {
+      console.log(newName, newImageFile);
       if (idx === undefined) {
         return false;
       }
@@ -51,14 +52,15 @@ const useIdxBasicProfile = (idx) => {
       if (newImageFile !== undefined) {
         // TODO: pin file
         const { path } = await ipfs.add(newImageFile);
+        console.log(path);
         console.debug(path);
         // TODO: get width and height
         // TODO: make mime type variable
         const original = {
           src: `ipfs://${path}`,
           mimeType: "image/jpeg",
-          width: 0,
-          height: 0,
+          width: 100,
+          height: 100,
         };
         profile.image = {
           ...image,
@@ -72,7 +74,15 @@ const useIdxBasicProfile = (idx) => {
     [idx]
   );
 
-  return { name, setName, image, imageURL, setImageURL, saveIdxBasicProfile };
+  return {
+    name,
+    setName,
+    image,
+    setImage,
+    imageURL,
+    setImageURL,
+    saveIdxBasicProfile,
+  };
 };
 
 export default useIdxBasicProfile;

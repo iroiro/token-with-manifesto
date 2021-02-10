@@ -16,7 +16,7 @@ const initialArray = [initialState, initialState, initialState];
 const imageURLPrefix = "https://gateway.pinata.cloud/ipfs/";
 
 function TokenInfoPage() {
-  const [provider] = useWeb3Modal();
+  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { manifestoDocId } = useParams();
   const { ceramic, idx } = useCeramic(provider);
   const { client, isInitialized } = useThreadDB();
@@ -77,6 +77,9 @@ function TokenInfoPage() {
 
   return (
     <TokenInfopageTemplate
+      provider={provider}
+      loadWeb3Modal={loadWeb3Modal}
+      logoutOfWeb3Modal={logoutOfWeb3Modal}
       tokenInfo={tokenBasicInfo}
       creatorInfo={creatorInfo}
       witness={witnessArray}

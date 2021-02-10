@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { manifestosCollection, threadId } from "../utils/textile";
 import Web3 from "web3";
+import { Web3Provider } from "@ethersproject/providers";
 
 const useSignManifesto = (provider, ceramic, idx, client) => {
   const [manifesto, setManifesto] = useState(undefined);
@@ -21,15 +22,13 @@ const useSignManifesto = (provider, ceramic, idx, client) => {
 
       const web3 = new Web3(provider);
       const account = (await web3.eth.getAccounts())[0];
-      // TODO sign for manifesto doc id, timestamp and wallet address
-      const mockSignature = "mock signature";
-
+      const signer = new Web3Provider(provider).getSigner();
+      const signature = await signer.signMessage(manifestoDocId);
       const newWitnessSignature = {
         did: idx.id,
-        signature: mockSignature,
+        signature,
         wallet_address: account,
       };
-
       const signaturesExcludedSigner = manifesto.witness_signatures.filter(
         (witnessSignature) => {
           return (

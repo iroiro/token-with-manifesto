@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TokenInfo } from "../../molecules/TokenInfo";
 import { EditProfile } from "../../molecules/EditProfile";
-import CommonHeader from "../../organisms/CommonHeader";
 
 const StyledInput = styled(TextField)`
   width: 100%;

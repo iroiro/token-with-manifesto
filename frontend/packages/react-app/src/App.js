@@ -18,12 +18,8 @@ function App() {
               <HomePage />
             </Route>
             <Route exact path="/creator/token" component={CreateTokenPage} />
-            <Route path="/creator/token/:docId">
-              <CreateTokenPage />
-            </Route>
-            <Route path="/witness/sign">
-              <WitnessSignPage />
-            </Route>
+            <Route path="/creator/token/:docId" component={CreateTokenPage} />
+            <Route path="/witness/sign" component={WitnessSignPage} />
             {/* TODO get token address as variable */}
             <Route path="/token/:manifestoDocId">
               <TokenInfoPage />

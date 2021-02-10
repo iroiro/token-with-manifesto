@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TokenInfo } from "../../molecules/TokenInfo";
 import { EditProfile } from "../../molecules/EditProfile";
+import CommonHeader from "../../organisms/CommonHeader";
 
 const StyledInput = styled(TextField)`
   width: 100%;
@@ -15,6 +16,9 @@ const StyledInput = styled(TextField)`
 `;
 
 export const SignPageTemplate = ({
+  provider,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
   tokenBasicInfo,
   userName,
   setName,
@@ -38,7 +42,11 @@ export const SignPageTemplate = ({
 
   return (
     <>
-      <Header />
+      <Header
+        provider={provider}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+      />
       <StyledContainer maxWidth="sm">
         <div>
           <IconTitle icon="✍️" title="Sign Manifesto" />

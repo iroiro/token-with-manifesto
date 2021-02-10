@@ -9,6 +9,8 @@ import { useHistory, useParams } from "react-router-dom";
 import useManifestoModel from "../../hooks/useManifestoModel";
 import useThreadDB from "../../hooks/useThreadDB";
 import useCreateToken from "../../hooks/useCreateToken";
+import useBuckets from "../../hooks/useBucket";
+import { manifestosCollection, threadId } from "../../utils/textile";
 
 function CreateTokenPage() {
   const history = useHistory();
@@ -17,13 +19,14 @@ function CreateTokenPage() {
 
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
+  const { buckets, bucketKey, error: bucketError } = useBuckets();
   const {
     name,
     setName,
     imageURL,
     setImageURL,
     saveIdxBasicProfile,
-  } = useIdxBasicProfile(idx);
+  } = useIdxBasicProfile(idx, buckets, bucketKey);
   const [imageFile, setImageFile] = useState(undefined);
   const [isSaved, setIsSaved] = useState(false);
   const [pdfName, setPdfName] = useState("");
@@ -42,7 +45,7 @@ function CreateTokenPage() {
     setTokenBasicInfo,
     saveTokenBasicInfo,
     updateTokenBasicInfo,
-  } = useTokenBasicInfo(ceramic, idx);
+  } = useTokenBasicInfo(ceramic, idx, buckets, bucketKey);
   const { deployedAddress, createToken } = useCreateToken(provider);
   const [viewTokenInfo, setViewTokenInfo] = useState(false);
 

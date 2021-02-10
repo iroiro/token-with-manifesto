@@ -6,7 +6,7 @@ const ipfs = IpfsHttpClient(infura);
 
 const imageURLPrefix = "https://gateway.pinata.cloud/ipfs/";
 
-const useIdxBasicProfile = (idx) => {
+const useIdxBasicProfile = (idx, buckets, bucketKey) => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(undefined);
   const [imageURL, setImageURL] = useState(undefined);
@@ -49,13 +49,15 @@ const useIdxBasicProfile = (idx) => {
         profile.name = newName;
       }
       if (newImageFile !== undefined) {
-        // TODO: pin file
-        const { path } = await ipfs.add(newImageFile);
+        const result = await buckets.pushPath(
+          bucketKey,
+          newImageFile.name,
+          newImageFile
+        );
         // TODO: get width and height
-        // TODO: make mime type variable
         const original = {
-          src: `ipfs://${path}`,
-          mimeType: "image/jpeg",
+          src: `ipfs://${result.path.cid.toString()}`,
+          mimeType: newImageFile.type,
           width: 100,
           height: 100,
         };
@@ -68,7 +70,7 @@ const useIdxBasicProfile = (idx) => {
       await idx.merge("basicProfile", profile);
       return true;
     },
-    [idx]
+    [idx, buckets, bucketKey]
   );
 
   return {

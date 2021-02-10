@@ -86,7 +86,7 @@ function CreateTokenPage() {
     <CreateTokenPageTemplate
       createToken={createToken}
       doc={doc}
-      image={imageURL}
+      imageURL={imageURL}
       imageFile={imageFile}
       manifesto={manifesto}
       manifestoFile={manifestoFile}

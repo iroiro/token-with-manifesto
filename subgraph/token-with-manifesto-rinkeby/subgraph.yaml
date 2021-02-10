@@ -6,7 +6,7 @@ dataSources:
     name: TokenFactory
     network: rinkeby
     source:
-      address: "0x878A40c823c05653990e89CA85f7C3427f6b9b5d"
+      address: "0x90488Ad4271A1fce399bb1a445eE8FFbf3ba23d8"
       abi: TokenFactory
     mapping:
       kind: ethereum/events
@@ -22,4 +22,23 @@ dataSources:
       eventHandlers:
         - event: CreateToken(address,string,string[3])
           handler: handleCreateToken
+      file: ./src/mapping.ts
+templates:
+  - kind: ethereum/contract
+    name: TokenWithManifesto
+    network: rinkeby
+    source:
+      abi: TokenWithManifesto
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - TokenWithManifesto
+      abis:
+        - name: TokenWithManifesto
+          file: ./abis/TokenWithManifesto.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/mapping.ts

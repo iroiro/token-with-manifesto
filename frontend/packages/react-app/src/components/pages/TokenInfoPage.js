@@ -7,6 +7,8 @@ import useCeramic from "../../hooks/useCeramic";
 import useThreadDB from "../../hooks/useThreadDB";
 import useManifestoModel from "../../hooks/useManifestoModel";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
+import GET_TOKEN from "../../graphql/subgraph";
+import { useLazyQuery } from "@apollo/react-hooks";
 
 const initialState = {
   name: "",
@@ -24,6 +26,21 @@ function TokenInfoPage() {
   const { tokenBasicInfo, getTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
   const [creatorInfo, setCreatorInfo] = useState(initialState);
   const [witnessArray, setWitnessArray] = useState(initialArray);
+  const [getToken, { data: token }] = useLazyQuery(GET_TOKEN);
+
+  useEffect(() => {
+    if (
+      tokenBasicInfo === undefined ||
+      tokenBasicInfo.token.deployedAddress === undefined
+    ) {
+      return;
+    }
+    getToken({
+      variables: {
+        id: tokenBasicInfo.token.deployedAddress.toLowerCase(),
+      },
+    });
+  }, [tokenBasicInfo, getToken]);
 
   useEffect(() => {
     getTokenBasicInfo(manifestoDocId);
@@ -80,7 +97,7 @@ function TokenInfoPage() {
       provider={provider}
       loadWeb3Modal={loadWeb3Modal}
       logoutOfWeb3Modal={logoutOfWeb3Modal}
-      tokenInfo={tokenBasicInfo}
+      tokenInfo={token}
       creatorInfo={creatorInfo}
       witness={witnessArray}
       handleReadManifestoButtonClick={handleReadManifestoButtonClick}

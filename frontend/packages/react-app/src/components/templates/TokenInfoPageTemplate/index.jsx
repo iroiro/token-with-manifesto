@@ -38,10 +38,12 @@ export const TokenInfopageTemplate = ({
         <IconTitle icon="ℹ️" title="Token Info" />
         <Frame variant="outlined">
           <TokenInfo
-            tokenName={tokenInfo.token.name}
-            symbol={tokenInfo.token.symbol}
-            totalSupply={tokenInfo.token.totalSupply}
-            decimals={tokenInfo.token.decimals}
+            tokenName={tokenInfo === undefined ? "" : tokenInfo.token.name}
+            symbol={tokenInfo === undefined ? "" : tokenInfo.token.symbol}
+            totalSupply={
+              tokenInfo === undefined ? "" : tokenInfo.token.totalSupply
+            }
+            decimals={tokenInfo === undefined ? "" : tokenInfo.token.decimals}
           />
           <div>
             {/* TODO: Link to Etherscan */}

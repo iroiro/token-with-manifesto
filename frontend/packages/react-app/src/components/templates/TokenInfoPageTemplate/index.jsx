@@ -19,14 +19,20 @@ const EtherScanLink = styled.a`
 `;
 
 export const TokenInfopageTemplate = ({
+  provider,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
   tokenInfo,
   creatorInfo,
   witness,
   handleReadManifestoButtonClick,
 }) => (
   <>
-    <Header />
-    <StyledContainer maxWidth="sm">
+      <Header
+          provider={provider}
+          loadWeb3Modal={loadWeb3Modal}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+      />    <StyledContainer maxWidth="sm">
       <div>
         <IconTitle icon="ℹ️" title="Token Info" />
         <Frame variant="outlined">

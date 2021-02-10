@@ -14,25 +14,26 @@ const StyledInput = styled(TextField)`
   margin-bottom: 16px;
 `;
 
-export const SignPageTemplate = ({ value }) => {
-  const [isDisplay, setIsDisplay] = useState(false);
-  const [textValue, setTextValue] = useState("");
-  // TODO: Move to page
-  const [name, setName] = useState(value.userInfo.name);
-  const [image, setImage] = useState(value.userInfo.iconImageUrl);
-  const [isSigned, setIsSigned] = useState(value.isSigned);
-
-  const handleDownloadButtonClick = () => {
-    setIsDisplay(true);
-  };
-
+export const SignPageTemplate = ({
+  tokenBasicInfo,
+  userName,
+  setName,
+  image,
+  setImage,
+  imageURL,
+  setImageURL,
+  manifestoDocId,
+  setManifestoDocId,
+  manifesto,
+  getManifesto,
+  saveIdxBasicProfile,
+  signManifestoAndSave,
+  isSignedAndSaved,
+}) => {
   const handleImageUpload = (e) => {
-    const image = URL.createObjectURL(e.target.files[0]);
-    setImage(image);
-  };
-
-  const handleSignButtonClick = () => {
-    setIsSigned(true);
+    const imageURL = URL.createObjectURL(e.target.files[0]);
+    setImage(e.target.files[0]);
+    setImageURL(imageURL);
   };
 
   return (
@@ -40,15 +41,15 @@ export const SignPageTemplate = ({ value }) => {
       <Header />
       <StyledContainer maxWidth="sm">
         <div>
-          <IconTitle icon="✍️" title="Sign Manifest" />
+          <IconTitle icon="✍️" title="Sign Manifesto" />
           <Frame variant="outlined">
             <Typography variant="h5" component="h2" style={{ marginBottom: 8 }}>
               Manifesto
             </Typography>
             <StyledInput
               label="Input Manifesto ID"
-              value={textValue}
-              onChange={(e) => setTextValue(e.target.value)}
+              value={manifestoDocId}
+              onChange={(e) => setManifestoDocId(e.target.value)}
             />
             <div style={{ marginTop: 16 }}>
               <Button
@@ -56,13 +57,13 @@ export const SignPageTemplate = ({ value }) => {
                 color="primary"
                 disableElevation
                 style={{ minWidth: 240, width: "100%" }}
-                onClick={handleDownloadButtonClick}
+                onClick={() => getManifesto(manifestoDocId)}
               >
                 Download Manifesto
               </Button>
             </div>
           </Frame>
-          {isDisplay && (
+          {manifesto !== undefined && (
             <>
               <Frame variant="outlined">
                 <Typography
@@ -73,10 +74,10 @@ export const SignPageTemplate = ({ value }) => {
                   Token Info
                 </Typography>
                 <TokenInfo
-                  tokenName={value.tokenInfo.name}
-                  symbol={value.tokenInfo.symbol}
-                  totalSupply={value.tokenInfo.totalSupply}
-                  decimals={value.tokenInfo.decimals}
+                  tokenName={tokenBasicInfo.token.name}
+                  symbol={tokenBasicInfo.token.symbol}
+                  totalSupply={tokenBasicInfo.token.totalSupply}
+                  decimals={tokenBasicInfo.token.decimals}
                 />
               </Frame>
               <Frame variant="outlined">
@@ -88,11 +89,13 @@ export const SignPageTemplate = ({ value }) => {
                   Fill in your info
                 </Typography>
                 <EditProfile
-                  name={name}
+                  name={userName}
                   onNameChange={(e) => setName(e.target.value)}
-                  image={image}
+                  imageURL={imageURL}
                   handleImageUpload={handleImageUpload}
-                  onUpdateButtonClick={() => console.log("update")}
+                  onUpdateButtonClick={() =>
+                    saveIdxBasicProfile(userName, image)
+                  }
                 />
               </Frame>
               <div style={{ maxWidth: 416, margin: "52px auto 32px" }}>
@@ -111,10 +114,14 @@ export const SignPageTemplate = ({ value }) => {
                   color="primary"
                   disableElevation
                   style={{ minWidth: 240, width: "100%" }}
-                  disabled={isSigned || name === "" || image === ""}
-                  onClick={handleSignButtonClick}
+                  disabled={
+                    isSignedAndSaved || userName === "" || imageURL === ""
+                  }
+                  onClick={() =>
+                    signManifestoAndSave(manifesto, manifestoDocId)
+                  }
                 >
-                  {isSigned ? "Signed it!" : "Sign"}
+                  {isSignedAndSaved ? "Signed it!" : "Sign"}
                 </Button>
               </div>
             </>

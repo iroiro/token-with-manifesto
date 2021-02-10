@@ -13,7 +13,7 @@ const StyledInput = styled(TextField)`
 export const EditProfile = ({
   name,
   onNameChange,
-  image,
+  imageURL,
   handleImageUpload,
   onUpdateButtonClick,
   disabled = false,
@@ -28,7 +28,7 @@ export const EditProfile = ({
       />
       <div>
         <InputLabel style={{ marginBottom: 16 }}>Icon image</InputLabel>
-        {image === "" && (
+        {imageURL === "" && (
           <div>
             <input
               accept="image/*"
@@ -52,7 +52,7 @@ export const EditProfile = ({
             </label>
           </div>
         )}
-        {image !== "" && (
+        {imageURL !== "" && (
           <div style={{ marginBottom: 16 }}>
             <input
               accept="image/*"
@@ -64,13 +64,13 @@ export const EditProfile = ({
             />
             <label htmlFor="image-file">
               <Avatar
-                src={image}
+                src={imageURL}
                 style={{ width: 82, height: 82, cursor: "pointer" }}
               />
             </label>
           </div>
         )}
-        {image !== "" && name !== "" && (
+        {imageURL !== "" && name !== "" && (
           <Button
             variant="outlined"
             color="primary"

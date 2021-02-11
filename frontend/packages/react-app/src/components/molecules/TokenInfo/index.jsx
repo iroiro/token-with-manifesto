@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `;
 
 export const TokenInfo = ({ tokenName, symbol, totalSupply, decimals }) => (
-  <>
+  <div>
     <dl>
       <Wrapper>
         <StyledDt>Name:</StyledDt>
@@ -53,9 +53,9 @@ export const TokenInfo = ({ tokenName, symbol, totalSupply, decimals }) => (
       <Wrapper>
         <StyledDt>Decimals:</StyledDt>
         <StyledDd>
-          {decimals === 0 ? <Skeleton variant="text" /> : decimals}
+          {decimals === "" ? <Skeleton variant="text" /> : decimals}
         </StyledDd>
       </Wrapper>
     </dl>
-  </>
+  </div>
 );

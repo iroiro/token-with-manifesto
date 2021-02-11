@@ -69,6 +69,23 @@ export class Token extends Entity {
     this.set("decimals", Value.fromI32(value));
   }
 
+  get manifesto(): string | null {
+    let value = this.get("manifesto");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set manifesto(value: string | null) {
+    if (value === null) {
+      this.unset("manifesto");
+    } else {
+      this.set("manifesto", Value.fromString(value as string));
+    }
+  }
+
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
     return value.toBigInt();

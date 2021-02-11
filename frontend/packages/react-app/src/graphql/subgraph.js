@@ -8,9 +8,14 @@ const GET_TOKEN = gql`
       name
       symbol
       decimals
+      manifesto
       totalSupply
       creator
       witnessDids
+      accountTokens {
+        id
+        balance
+      }
     }
   }
 `;

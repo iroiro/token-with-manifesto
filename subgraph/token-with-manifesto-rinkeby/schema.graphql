@@ -3,6 +3,7 @@ type Token @entity {
   name: String!
   symbol: String!
   decimals: Int
+  manifesto: String
   totalSupply: BigInt!
   creator: String! # did
   witnessDids: [String!]! # dids

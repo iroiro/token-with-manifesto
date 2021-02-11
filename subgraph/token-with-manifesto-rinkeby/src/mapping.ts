@@ -29,6 +29,11 @@ export function handleCreateToken(event: CreateToken): void {
     token.decimals = decimals.value;
   }
 
+  let manifesto = TWM.try_manifesto();
+  if (!manifesto.reverted) {
+    token.manifesto = manifesto.value;
+  }
+
   let totalSupply = TWM.try_totalSupply();
   if (!totalSupply.reverted) {
     token.totalSupply = totalSupply.value;

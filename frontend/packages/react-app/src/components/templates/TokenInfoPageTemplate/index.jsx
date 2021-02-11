@@ -9,6 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { UserAvatar } from "../../molecules/UserAvatar";
 import { CopyToClipboard } from "react-copy-to-clipboard/lib/Component";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const EtherScanLink = styled.a`
   display: flex;
@@ -26,6 +32,7 @@ export const TokenInfopageTemplate = ({
   creatorInfo,
   witness,
   handleReadManifestoButtonClick,
+  rows,
 }) => (
   <>
     <Header
@@ -102,6 +109,42 @@ export const TokenInfopageTemplate = ({
               );
             })}
           </div>
+        </Frame>
+        <Frame variant="outlined" style={{ padding: "52px 22px" }}>
+          <TableContainer>
+            <Table size="small" aria-label="a dense table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Balance</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.balance}</TableCell>
+                  </TableRow>
+                ))}
+                {rows.length === 0 && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={2}
+                      style={{
+                        padding: 32,
+                        textAlign: "center",
+                        color: "#7e7e7e",
+                      }}
+                    >
+                      No data
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Frame>
         <div style={{ maxWidth: 416, margin: "0 auto 32px" }}>
           <CopyToClipboard text={window.location.href}>

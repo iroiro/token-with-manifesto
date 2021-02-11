@@ -9,6 +9,7 @@ import useManifestoModel from "../../hooks/useManifestoModel";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import GET_TOKEN from "../../graphql/subgraph";
 import { useLazyQuery } from "@apollo/react-hooks";
+import useWalletAddressDidsModel from "../../hooks/useWalletAddressDidsModel";
 
 const initialState = {
   name: "",
@@ -27,6 +28,69 @@ function TokenInfoPage() {
   const [creatorInfo, setCreatorInfo] = useState(initialState);
   const [witnessArray, setWitnessArray] = useState(initialArray);
   const [getToken, { data: token }] = useLazyQuery(GET_TOKEN);
+  const { walletAddressDids, getWalletAddressDids } = useWalletAddressDidsModel(
+    client
+  );
+  const [accountBalances, setAccountBalances] = useState([]);
+
+  useEffect(() => {
+    const f = async () => {
+      console.debug(token, walletAddressDids);
+      if (
+        idx === undefined ||
+        token === undefined ||
+        token.data === null ||
+        walletAddressDids === undefined
+      ) {
+        return;
+      }
+      const accountBalances = await Promise.all(
+        token.token.accountTokens
+          .map((accountToken) => {
+            const walletAddress = accountToken.id.split("-")[0];
+            const balance = accountToken.balance;
+            const did = walletAddressDids.find((walletAddressDid) => {
+              return (
+                walletAddressDid.wallet_address.toLowerCase() ===
+                walletAddress.toLowerCase()
+              );
+            });
+
+            return { walletAddress, balance, did };
+          })
+          .filter((accountBalance) => {
+            return (
+              accountBalance.walletAddress !==
+                "0x0000000000000000000000000000000000000000" &&
+              accountBalance.did !== undefined
+            );
+          })
+          .map(async (accountBalanceWithDid) => {
+            const basicProfile = await idx.get(
+              "basicProfile",
+              accountBalanceWithDid.did.did
+            );
+            return {
+              ...accountBalanceWithDid,
+              basicProfile,
+            };
+          })
+      );
+      console.debug(accountBalances);
+      setAccountBalances(accountBalances);
+    };
+    f();
+  }, [token, walletAddressDids, idx]);
+
+  useEffect(() => {
+    const f = async () => {
+      if (client === undefined) {
+        return;
+      }
+      await getWalletAddressDids();
+    };
+    f();
+  }, [client]);
 
   useEffect(() => {
     if (

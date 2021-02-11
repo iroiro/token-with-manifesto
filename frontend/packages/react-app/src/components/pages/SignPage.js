@@ -8,10 +8,12 @@ import { useEffect, useState } from "react";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useSignManifesto from "../../hooks/useSignManifesto";
 import { SignPageTemplate } from "../templates/SignPageTemplate";
+import useBuckets from "../../hooks/useBuckets";
 
 function WitnessSignPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
+  const { buckets, bucketKey } = useBuckets();
   const {
     name: userName,
     setName,
@@ -20,7 +22,7 @@ function WitnessSignPage() {
     imageURL,
     setImageURL,
     saveIdxBasicProfile,
-  } = useIdxBasicProfile(idx);
+  } = useIdxBasicProfile(idx, buckets, bucketKey);
   const { client, isInitialized } = useThreadDB();
   const [manifestoDocId, setManifestoDocId] = useState("");
   const { manifesto, getManifesto } = useManifestoModel(client);

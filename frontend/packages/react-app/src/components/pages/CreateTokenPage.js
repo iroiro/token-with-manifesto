@@ -9,7 +9,7 @@ import { useHistory, useParams } from "react-router-dom";
 import useManifestoModel from "../../hooks/useManifestoModel";
 import useThreadDB from "../../hooks/useThreadDB";
 import useCreateToken from "../../hooks/useCreateToken";
-import useBuckets from "../../hooks/useBucket";
+import useBuckets from "../../hooks/useBuckets";
 import { manifestosCollection, threadId } from "../../utils/textile";
 
 function CreateTokenPage() {

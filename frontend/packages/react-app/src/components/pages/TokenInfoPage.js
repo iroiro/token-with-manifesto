@@ -65,15 +65,14 @@ function TokenInfoPage() {
           .filter((accountBalance) => {
             return (
               accountBalance.walletAddress !==
-                "0x0000000000000000000000000000000000000000" &&
-              accountBalance.did !== undefined
+              "0x0000000000000000000000000000000000000000"
             );
           })
           .map(async (accountBalanceWithDid) => {
-            const basicProfile = await idx.get(
-              "basicProfile",
-              accountBalanceWithDid.did.did
-            );
+            const basicProfile =
+              accountBalanceWithDid.did === undefined
+                ? { name: "anonymous" }
+                : await idx.get("basicProfile", accountBalanceWithDid.did.did);
             return {
               ...accountBalanceWithDid,
               basicProfile,

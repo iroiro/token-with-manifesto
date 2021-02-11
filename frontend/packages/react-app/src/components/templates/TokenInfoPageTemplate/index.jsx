@@ -111,6 +111,9 @@ export const TokenInfopageTemplate = ({
           </div>
         </Frame>
         <Frame variant="outlined" style={{ padding: "52px 22px" }}>
+          <Typography variant="h5" component="h2" style={{ marginBottom: 24 }}>
+            Token holders
+          </Typography>
           <TableContainer>
             <Table size="small" aria-label="a dense table">
               <TableHead>

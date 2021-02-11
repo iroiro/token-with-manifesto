@@ -43,7 +43,7 @@ function TokenInfoPage() {
       if (
         idx === undefined ||
         token === undefined ||
-        token.data === null ||
+        token.token === null ||
         walletAddressDids === undefined
       ) {
         return;

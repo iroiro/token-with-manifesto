@@ -62,12 +62,12 @@ export const mockSubgraphResponse = {
       accountTokens: [
         {
           id:
-            "0xd2298e49824acb0c0a1ebfd9af32909c4399a7cc-0x84d800dae0bdb31a4de9918782bffcc8d041c1b8",
+            "0x84d800dae0bdb31a4de9918782bffcc8d041c1b8-0xd2298e49824acb0c0a1ebfd9af32909c4399a7cc",
           balance: "10000000000",
         },
         {
           id:
-            "0xd2298e49824acb0c0a1ebfd9af32909c4399a7cc-0x09177d096e3fa5823b3b2182677b02b0aa01277c",
+            "0x09177d096e3fa5823b3b2182677b02b0aa01277c-0xd2298e49824acb0c0a1ebfd9af32909c4399a7cc",
           balance: "40000000",
         },
       ],

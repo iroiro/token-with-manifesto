@@ -10,7 +10,8 @@ import useManifestoModel from "../../hooks/useManifestoModel";
 import useThreadDB from "../../hooks/useThreadDB";
 import useCreateToken from "../../hooks/useCreateToken";
 import useBuckets from "../../hooks/useBuckets";
-import { manifestosCollection, threadId } from "../../utils/textile";
+import Web3 from "web3";
+import useWalletAddressDidsModel from "../../hooks/useWalletAddressDidsModel";
 
 function CreateTokenPage() {
   const history = useHistory();
@@ -48,6 +49,29 @@ function CreateTokenPage() {
   } = useTokenBasicInfo(ceramic, idx, buckets, bucketKey);
   const { deployedAddress, createToken } = useCreateToken(provider);
   const [viewTokenInfo, setViewTokenInfo] = useState(false);
+  const { saveWalletAddressDid } = useWalletAddressDidsModel(client);
+
+  // TODO move as hooks
+  useEffect(() => {
+    const f = async () => {
+      if (provider === undefined || idx === undefined || client === undefined) {
+        return;
+      }
+      const web3 = new Web3(provider);
+      const account = (await web3.eth.getAccounts())[0];
+      const did = idx.id.toString();
+      if (
+        account === undefined ||
+        account === "" ||
+        did === undefined ||
+        did === ""
+      ) {
+        return;
+      }
+      await saveWalletAddressDid(account, did);
+    };
+    f();
+  }, [provider, idx, client]);
 
   useEffect(() => {
     setIsSaved(manifestoDocId !== undefined);

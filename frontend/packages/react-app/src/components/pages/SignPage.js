@@ -8,10 +8,14 @@ import { useEffect, useState } from "react";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useSignManifesto from "../../hooks/useSignManifesto";
 import { SignPageTemplate } from "../templates/SignPageTemplate";
+import useBuckets from "../../hooks/useBuckets";
+import Web3 from "web3";
+import useWalletAddressDidsModel from "../../hooks/useWalletAddressDidsModel";
 
 function WitnessSignPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
+  const { buckets, bucketKey } = useBuckets();
   const {
     name: userName,
     setName,
@@ -20,7 +24,7 @@ function WitnessSignPage() {
     imageURL,
     setImageURL,
     saveIdxBasicProfile,
-  } = useIdxBasicProfile(idx);
+  } = useIdxBasicProfile(idx, buckets, bucketKey);
   const { client, isInitialized } = useThreadDB();
   const [manifestoDocId, setManifestoDocId] = useState("");
   const { manifesto, getManifesto } = useManifestoModel(client);
@@ -31,6 +35,29 @@ function WitnessSignPage() {
     idx,
     client
   );
+  const { saveWalletAddressDid } = useWalletAddressDidsModel(client);
+
+  // TODO move as hooks
+  useEffect(() => {
+    const f = async () => {
+      if (provider === undefined || idx === undefined || client === undefined) {
+        return;
+      }
+      const web3 = new Web3(provider);
+      const account = (await web3.eth.getAccounts())[0];
+      const did = idx.id.toString();
+      if (
+        account === undefined ||
+        account === "" ||
+        did === undefined ||
+        did === ""
+      ) {
+        return;
+      }
+      await saveWalletAddressDid(account, did);
+    };
+    f();
+  }, [provider, idx, client]);
 
   useEffect(() => {
     if (manifesto === undefined || manifesto.manifesto_doc_id === undefined) {

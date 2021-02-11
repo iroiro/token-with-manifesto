@@ -18,6 +18,10 @@ const initialState = {
 const initialArray = [initialState, initialState, initialState];
 const imageURLPrefix = "https://gateway.pinata.cloud/ipfs/";
 
+function createData(name, balance) {
+  return { name, balance };
+}
+
 function TokenInfoPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { manifestoDocId } = useParams();
@@ -32,6 +36,7 @@ function TokenInfoPage() {
     client
   );
   const [accountBalances, setAccountBalances] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     const f = async () => {
@@ -75,11 +80,25 @@ function TokenInfoPage() {
             };
           })
       );
-      console.debug(accountBalances);
       setAccountBalances(accountBalances);
     };
     f();
   }, [token, walletAddressDids, idx]);
+
+  useEffect(() => {
+    if (accountBalances.length === 0) {
+      return;
+    }
+
+    const rows = accountBalances.map((accountBalance) => {
+      return createData(
+        accountBalance.basicProfile.name,
+        accountBalance.balance.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      );
+    });
+
+    setRows(rows);
+  }, [accountBalances]);
 
   useEffect(() => {
     const f = async () => {
@@ -184,6 +203,7 @@ function TokenInfoPage() {
       creatorInfo={creatorInfo}
       witness={witnessArray}
       handleReadManifestoButtonClick={handleReadManifestoButtonClick}
+      rows={rows}
     />
   );
 }

@@ -44,5 +44,32 @@ const value = {
 
 export const Default = Template.bind({});
 Default.args = {
-  value: value,
+  tokenInfo: {
+    token: {
+      decimals: 2,
+      deployedAddress: "0x2e34F6AD7d16e9b2763a89429fF2C36673729E60",
+      name: "Test token",
+      symbol: "TST",
+      totalSupply: "9450000000",
+    },
+  },
+  creatorInfo: {
+    imageUrl: "",
+    name: "wildmouse",
+  },
+  witness: [
+    {
+      name: "witness1",
+      imageUrl: "",
+    },
+    {
+      name: "witness2",
+      imageUrl: "",
+    },
+    {
+      name: "witness3",
+      imageUrl: "",
+    },
+  ],
+  rows: [],
 };

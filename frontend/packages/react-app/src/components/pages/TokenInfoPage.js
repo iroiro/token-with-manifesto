@@ -37,6 +37,14 @@ function TokenInfoPage() {
   );
   const [accountBalances, setAccountBalances] = useState([]);
   const [rows, setRows] = useState([]);
+  const [isReadButtonDisabled, setIsReadButtonDisabled] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  const [fetchTokenInfo, setFetchTokenInfo] = useState(false);
+  const [fetchManifesto, setFetchManifesto] = useState(false);
+  const [fetchCreatorInfo, setFetchCreatorInfo] = useState(false);
+  const [fetchWitness, setFetchWitness] = useState(false);
+  const [fetchTokenHolders, setFetchTokenHolders] = useState(false);
 
   useEffect(() => {
     const f = async () => {
@@ -97,6 +105,7 @@ function TokenInfoPage() {
     });
 
     setRows(rows);
+    setFetchTokenHolders(true);
   }, [accountBalances]);
 
   useEffect(() => {
@@ -129,6 +138,21 @@ function TokenInfoPage() {
   }, [manifestoDocId, idx]);
 
   useEffect(() => {
+    if (tokenBasicInfo === undefined || tokenBasicInfo.manifestoCid === "") {
+      return;
+    }
+    setIsReadButtonDisabled(false);
+    setFetchManifesto(true);
+  }, [tokenBasicInfo]);
+
+  useEffect(() => {
+    if (token === undefined || token.data === null) {
+      return;
+    }
+    setFetchTokenInfo(true);
+  }, [token]);
+
+  useEffect(() => {
     if (idx === undefined || manifesto === undefined) {
       return;
     }
@@ -151,6 +175,7 @@ function TokenInfoPage() {
         imageUrl:
           imageURLPrefix + creatorBasicInfo.image.original.src.substr(7),
       });
+      setFetchCreatorInfo(true);
     };
     f();
   }, [idx, manifesto]);
@@ -181,8 +206,39 @@ function TokenInfoPage() {
       return await Promise.all(witnessInfoArray);
     };
 
-    f().then((result) => setWitnessArray(result));
+    f().then((result) => {
+      setWitnessArray(result);
+      setFetchWitness(true);
+    });
   }, [idx, manifesto]);
+
+  useEffect(() => {
+    if (
+      !fetchCreatorInfo &&
+      !fetchManifesto &&
+      !fetchTokenHolders &&
+      !fetchTokenInfo &&
+      !fetchWitness
+    ) {
+      return;
+    }
+    const fetchStates = [
+      fetchCreatorInfo,
+      fetchManifesto,
+      fetchTokenHolders,
+      fetchTokenInfo,
+      fetchWitness,
+    ];
+
+    const progressPer = fetchStates.filter((fetchState) => fetchState === true);
+    setProgress(progressPer.length * 20);
+  }, [
+    fetchCreatorInfo,
+    fetchManifesto,
+    fetchTokenHolders,
+    fetchTokenInfo,
+    fetchWitness,
+  ]);
 
   const handleReadManifestoButtonClick = useCallback(() => {
     window.open(
@@ -203,6 +259,8 @@ function TokenInfoPage() {
       witness={witnessArray}
       handleReadManifestoButtonClick={handleReadManifestoButtonClick}
       rows={rows}
+      isReadButtonDisabled={isReadButtonDisabled}
+      progress={progress}
     />
   );
 }

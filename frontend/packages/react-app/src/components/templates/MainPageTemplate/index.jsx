@@ -106,9 +106,8 @@ export const MainPageTemplate = ({
                       📝 Create Token with Manifesto
                     </Typography>
                     <Typography variant="body1" component="p">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis
+                      You can create a token with menifesto which describe a
+                      concept, purpose or usecase of token.
                     </Typography>
                   </div>
                   <div style={{ textAlign: "center" }}>
@@ -137,9 +136,8 @@ export const MainPageTemplate = ({
                       ✍️ Sign Manifesto
                     </Typography>
                     <Typography variant="body1" component="p">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis
+                      Sign manifest which creator declared to become a witness
+                      of awesome token.{" "}
                     </Typography>
                   </div>
                   <div style={{ textAlign: "center" }}>

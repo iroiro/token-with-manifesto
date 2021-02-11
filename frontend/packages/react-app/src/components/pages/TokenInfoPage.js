@@ -35,7 +35,6 @@ function TokenInfoPage() {
 
   useEffect(() => {
     const f = async () => {
-      console.debug(token, walletAddressDids);
       if (
         idx === undefined ||
         token === undefined ||

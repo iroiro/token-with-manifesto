@@ -110,7 +110,7 @@ export const TokenInfopageTemplate = ({
             })}
           </div>
         </Frame>
-        <Frame variant="outlined" style={{ padding: "52px 22px" }}>
+        <Frame variant="outlined" style={{ padding: 22 }}>
           <Typography variant="h5" component="h2" style={{ marginBottom: 24 }}>
             Token holders
           </Typography>

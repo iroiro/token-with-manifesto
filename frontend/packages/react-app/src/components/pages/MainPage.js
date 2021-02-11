@@ -3,8 +3,6 @@ import { useState, useCallback, useEffect } from "react";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import { MainPageTemplate } from "../templates/MainPageTemplate";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
-import useThreadDB from "../../hooks/useThreadDB";
-import useManifestoModel from "../../hooks/useManifestoModel";
 import useCeramic from "../../hooks/useCeramic";
 import { useHistory } from "react-router-dom";
 
@@ -13,9 +11,15 @@ function MainPage() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const { ceramic, idx } = useCeramic(provider);
   const { tokenBasicInfo, getTokenBasicInfo } = useTokenBasicInfo(ceramic, idx);
-  const { client, isInitialized } = useThreadDB();
-  const { manifesto, getManifesto } = useManifestoModel(client);
+
   const [manifestoDocId, setManifestoDocId] = useState("");
+  const [inputDisabled, setInputDisabled] = useState(true);
+
+  useEffect(() => {
+    if (idx !== undefined) {
+      setInputDisabled(false);
+    }
+  }, [idx]);
 
   const handleTextChange = useCallback(
     (e) => {
@@ -25,15 +29,13 @@ function MainPage() {
   );
 
   const handleViewButtonClick = useCallback(() => {
-    getManifesto(manifestoDocId);
     getTokenBasicInfo(manifestoDocId);
-  }, [manifestoDocId, getManifesto]);
+  }, [manifestoDocId]);
 
   useEffect(() => {
     if (tokenBasicInfo.manifestoCid === "") {
       return;
     }
-
     const tokenAddress = tokenBasicInfo.token.deployedAddress;
     if (tokenAddress === undefined) {
       console.log("No deployed");
@@ -53,6 +55,7 @@ function MainPage() {
         textValue={manifestoDocId}
         handleTextChange={handleTextChange}
         handleViewButtonClick={handleViewButtonClick}
+        inputDisabled={inputDisabled}
       />
     </>
   );

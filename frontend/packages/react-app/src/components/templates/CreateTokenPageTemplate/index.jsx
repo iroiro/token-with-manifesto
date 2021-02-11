@@ -64,6 +64,7 @@ export const CreateTokenPageTemplate = ({
   provider,
   loadWeb3Modal,
   logoutOfWeb3Modal,
+  handleViewPdfButtonClick,
 }) => {
   const handleImageUpload = (e) => {
     const image = URL.createObjectURL(e.target.files[0]);
@@ -197,6 +198,22 @@ export const CreateTokenPageTemplate = ({
                   </Typography>
                 </Preview>
               )}
+              {isSaved && (
+                <>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    disableElevation
+                    style={{
+                      minWidth: 240,
+                      width: "100%",
+                    }}
+                    onClick={handleViewPdfButtonClick}
+                  >
+                    View PDF
+                  </Button>
+                </>
+              )}
               <input
                 accept="application/pdf"
                 id="button-pdf-file"
@@ -255,8 +272,7 @@ export const CreateTokenPageTemplate = ({
                     component="h2"
                     style={{ marginBottom: 8 }}
                   >
-                    Save and Share your Manifesto Doc ID
-                    <br /> to 3 witness
+                    Save and Share your Manifesto Doc ID to 3 witness
                   </Typography>
                 </StyledNumber>
                 <div style={{ padding: "8px 8px 28px" }}>

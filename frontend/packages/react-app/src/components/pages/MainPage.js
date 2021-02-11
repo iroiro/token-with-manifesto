@@ -31,10 +31,9 @@ function MainPage() {
 
   useEffect(() => {
     if (tokenBasicInfo.manifestoCid === "") {
-      console.log("no cid");
       return;
     }
-    console.log("deployedAdress", tokenBasicInfo.token.deployedAddress);
+
     const tokenAddress = tokenBasicInfo.token.deployedAddress;
     if (tokenAddress === undefined) {
       console.log("No deployed");
@@ -44,9 +43,6 @@ function MainPage() {
       history.push(`/token/${manifestoDocId}`);
     }
   }, [tokenBasicInfo]);
-
-  console.log(tokenBasicInfo);
-  console.log(manifesto);
 
   return (
     <>

@@ -16,7 +16,12 @@ const Logo = styled.span`
 
 export const Header = ({ provider, loadWeb3Modal, logoutOfWeb3Modal }) => {
   return (
-    <Box display="flex" justifyContent="space-between" p={4}>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      style={{ padding: "32px 32px 0" }}
+    >
       <Link to="/" style={{ textDecoration: "none", marginRight: 24 }}>
         <Logo>Token with Manifesto</Logo>
       </Link>

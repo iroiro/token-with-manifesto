@@ -39,6 +39,7 @@ const useTokenBasicInfo = (ceramic, idx, buckets, bucketKey) => {
       return await ceramic
         .loadDocument(docId)
         .then((doc) => {
+          console.log("doc", doc);
           setDoc(doc);
           setTokenBasicInfo(doc.content);
         })

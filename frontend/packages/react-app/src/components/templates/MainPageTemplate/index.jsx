@@ -50,6 +50,7 @@ export const MainPageTemplate = ({
   textValue,
   handleTextChange,
   handleViewButtonClick,
+  inputDisabled,
 }) => {
   return (
     <>
@@ -161,6 +162,7 @@ export const MainPageTemplate = ({
                 label="Input Manifesto Doc ID"
                 value={textValue}
                 onChange={handleTextChange}
+                disabled={inputDisabled}
               />
               <div>
                 <Button
@@ -169,8 +171,9 @@ export const MainPageTemplate = ({
                   disableElevation
                   style={{ minWidth: 240 }}
                   onClick={handleViewButtonClick}
+                  disabled={inputDisabled}
                 >
-                  View Token Info
+                  {inputDisabled ? "Please Wait..." : "View Token Info"}
                 </Button>
               </div>
             </Card>

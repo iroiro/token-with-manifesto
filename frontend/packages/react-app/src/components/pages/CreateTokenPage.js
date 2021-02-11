@@ -1,7 +1,7 @@
 import * as React from "react";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import useCeramic from "../../hooks/useCeramic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import useTokenBasicInfo from "../../hooks/useTokenBasicInfo";
 import useIdxBasicProfile from "../../hooks/useIdxBasicProfile";
 import { CreateTokenPageTemplate } from "../templates/CreateTokenPageTemplate";
@@ -109,6 +109,20 @@ function CreateTokenPage() {
     f();
   }, [isNew, doc, error, saveManifesto]);
 
+  const handleViewPdfButtonClick = useCallback(() => {
+    if (
+      tokenBasicInfo === undefined ||
+      tokenBasicInfo.manifestoCid === undefined ||
+      tokenBasicInfo.manifestoCid === ""
+    ) {
+      return;
+    }
+    window.open(
+      `https://gateway.pinata.cloud/ipfs/${tokenBasicInfo.manifestoCid}`,
+      "_blank"
+    );
+  }, [tokenBasicInfo]);
+
   return (
     <CreateTokenPageTemplate
       createToken={createToken}
@@ -134,6 +148,7 @@ function CreateTokenPage() {
       provider={provider}
       loadWeb3Modal={loadWeb3Modal}
       logoutOfWeb3Modal={logoutOfWeb3Modal}
+      handleViewPdfButtonClick={handleViewPdfButtonClick}
     />
   );
 }

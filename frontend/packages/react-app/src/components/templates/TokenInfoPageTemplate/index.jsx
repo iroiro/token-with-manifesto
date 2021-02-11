@@ -46,8 +46,13 @@ export const TokenInfopageTemplate = ({
             decimals={tokenInfo === undefined ? "" : tokenInfo.token.decimals}
           />
           <div>
-            {/* TODO: Link to Etherscan */}
-            <EtherScanLink href="/" target="_blank" rel="noreferrer noopener">
+            <EtherScanLink
+              href={`https://rinkeby.etherscan.io/address/${
+                tokenInfo === undefined ? "" : tokenInfo.token.id
+              }`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               View on Etherscan
               <OpenInNewRoundedIcon
                 fontSize="small"

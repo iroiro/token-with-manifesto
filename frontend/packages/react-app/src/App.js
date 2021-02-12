@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import MainPage from "./components/pages/MainPage";
 import CreateTokenPage from "./components/pages/CreateTokenPage";
 import WitnessSignPage from "./components/pages/SignPage";
